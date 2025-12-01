@@ -997,3 +997,53 @@ select:focus {
     right: 8%;
   }
 }
+
+/* === COMPACT LOWER THIRD – OVERRIDES === */
+
+.overlay--lower-third {
+  left: 4%;
+  right: 42%;      /* was ~35% – narrower bar */
+  bottom: 5%;      /* a bit lower, closer to the edge */
+  gap: 3px;        /* tighter spacing between header / main / sponsor */
+}
+
+/* Header pill a bit smaller */
+.lt-header {
+  padding: 3px 8px;          /* was 4px 10px */
+}
+
+.lt-header span {
+  font-size: 0.65rem;        /* was 0.7rem */
+}
+
+/* Main block more compact */
+.lt-main {
+  padding: 5px 9px;          /* was 7px 11px */
+}
+
+.lt-name {
+  font-size: 0.9rem;         /* was 1.05rem */
+  letter-spacing: 0.1em;     /* slightly tighter */
+}
+
+.lt-meta {
+  margin-top: 1px;
+  font-size: 0.7rem;         /* was 0.75rem */
+  gap: 4px;                  /* was 6px */
+}
+
+.lt-team {
+  padding: 1px 6px;          /* smaller pill */
+}
+
+.lt-pill {
+  padding: 1px 6px;
+  font-size: 0.65rem;        /* was 0.68rem */
+}
+
+/* Sponsor line smaller + tighter */
+.lt-sponsor {
+  margin-top: 1px;
+  font-size: 0.65rem;        /* was 0.7rem */
+}
+
