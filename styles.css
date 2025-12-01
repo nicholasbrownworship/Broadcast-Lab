@@ -148,11 +148,7 @@ body.theme-light .ghost-btn {
   transform: translateY(-1px);
 }
 
-/* 
-   MAIN LAYOUT
-   - Vertical: Preview/Program panel spans full width at the top.
-   - Control panels stack underneath.
-*/
+/* MAIN LAYOUT – vertical, Preview/Program at top */
 
 .lab-main {
   flex: 1;
@@ -446,6 +442,7 @@ select:focus {
 }
 
 /* Camera feed */
+
 .cam-feed {
   position: absolute;
   inset: 0;
@@ -453,6 +450,27 @@ select:focus {
   height: 100%;
   object-fit: cover;
   filter: saturate(1.1);
+}
+
+/* VIDEO SOURCE STATES */
+
+.preview-frame[data-video-source="camera"] .cam-feed {
+  opacity: 1;
+  visibility: visible;
+}
+
+.preview-frame[data-video-source="gradient"] .cam-feed,
+.preview-frame[data-video-source="black"] .cam-feed {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.preview-frame[data-video-source="black"] .preview-video::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 1;
 }
 
 .preview-gradient {
