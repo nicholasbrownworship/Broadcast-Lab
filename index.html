@@ -31,6 +31,27 @@
     <main class="lab-main">
       <!-- LEFT COLUMN: CONTROLS & BRAND BOARD -->
       <section class="lab-column lab-column--left">
+        <!-- VIDEO SWITCHER -->
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Video Switcher</h2>
+            <p class="panel-subtitle">
+              Choose the <strong>Preview</strong> video source. TAKE copies it to <strong>Program</strong>.
+            </p>
+          </div>
+
+          <div class="field-grid">
+            <div class="field">
+              <span class="field-label">Preview video source</span>
+              <select id="videoSourceSelect">
+                <option value="camera">Camera</option>
+                <option value="gradient">Background only</option>
+                <option value="black">Black / Fade to black</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
         <!-- OVERLAY PICKER -->
         <section class="panel">
           <div class="panel-header">
@@ -227,7 +248,7 @@
           <div class="panel-header">
             <h2>Preview & Program</h2>
             <p class="panel-subtitle">
-              Left: tweak & line up shots. Right: on-air look. Use TAKE to cut. Graphics Mode shows the Program frame full-screen.
+              Left: tweak & line up shots. Right: on-air look. TAKE switches overlays + video source.
             </p>
           </div>
 
@@ -238,7 +259,7 @@
                 <span class="frame-label-title">Preview</span>
                 <span class="frame-label-tag">Safe sandbox</span>
               </div>
-              <div class="preview-frame">
+              <div class="preview-frame" data-video-source="camera">
                 <div class="preview-video">
                   <!-- Camera feed (preview) -->
                   <video id="previewCam" class="cam-feed" autoplay muted playsinline></video>
@@ -440,7 +461,7 @@
                   TAKE ⮕ LIVE
                 </button>
               </div>
-              <div class="preview-frame program-frame">
+              <div class="preview-frame program-frame" data-video-source="camera">
                 <div class="preview-video">
                   <!-- Camera feed (live/program) -->
                   <video id="liveCam" class="cam-feed" autoplay muted playsinline></video>
@@ -636,7 +657,7 @@
           </div>
 
           <p class="preview-hint">
-            Workflow: choose a layout, tweak content in <strong>Preview</strong>, then hit <strong>TAKE ⮕ LIVE</strong> to update the <strong>Program</strong> with a switcher flash. Use <strong>Start Camera Preview</strong> to see framing, <strong>Safe Guides</strong> to check title-safe, and <strong>Graphics Mode</strong> for a clean Program feed.
+            Workflow: choose video + overlay in <strong>Preview</strong>, then hit <strong>TAKE ⮕ LIVE</strong> to switch the <strong>Program</strong> (with a flash). Use <strong>Graphics Mode</strong> + fullscreen for a clean program feed.
           </p>
         </section>
       </section>
