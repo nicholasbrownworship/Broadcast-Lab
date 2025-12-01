@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Broadcast Lab – Ozark Invitational</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Sandbox for Ozark Invitational broadcast overlays, branding, and graphics layouts." />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="lab-shell">
+    <!-- TOPBAR -->
+    <header class="lab-topbar">
+      <div class="brand-lockup">
+        <div class="brand-mark">OI</div>
+        <div>
+          <div class="brand-title">Ozark Invitational</div>
+          <div class="brand-subtitle">Broadcast Lab</div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="btnThemeToggle" class="ghost-btn" type="button">Toggle Dark Mode</button>
+        <button id="btnFakeData" class="ghost-btn" type="button">Load Sample Data</button>
+      </div>
+    </header>
+
+    <main class="lab-main">
+      <!-- LEFT COLUMN: CONTROLS & BRAND BOARD -->
+      <section class="lab-column lab-column--left">
+        <!-- SECTION: OVERLAY PICKER -->
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Overlay Presets</h2>
+            <p class="panel-subtitle">Choose a layout to preview and wireframe for your editor.</p>
+          </div>
+
+          <div class="overlay-picker">
+            <label class="field">
+              <span class="field-label">Overlay type</span>
+              <select id="overlaySelect">
+                <option value="lower-third">Lower Third – Player ID</option>
+                <option value="score-bug">Score Bug – Match Status</option>
+                <option value="matchup-bar">Matchup Bar – vs Graphic</option>
+              </select>
+            </label>
+
+            <div class="overlay-notes" id="overlayNotes">
+              Lower third: great for intros, interviews, or feature cutaways.
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION: TEXT FIELDS -->
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Content Controls</h2>
+            <p class="panel-subtitle">Type here and watch the graphics update in real time.</p>
+          </div>
+
+          <div class="field-grid">
+            <div class="field">
+              <span class="field-label">Tournament name</span>
+              <input id="fieldTournament" type="text" placeholder="Ozark Invitational" />
+            </div>
+
+            <div class="field">
+              <span class="field-label">Round / Segment</span>
+              <input id="fieldRound" type="text" placeholder="Day 1 – Best Ball" />
+            </div>
+
+            <div class="field">
+              <span class="field-label">Segment label</span>
+              <input id="fieldSegment" type="text" placeholder="Feature Group" />
+            </div>
+
+            <div class="field">
+              <span class="field-label">Sponsor line</span>
+              <input id="fieldSponsor" type="text" placeholder="Presented by +3 Golf Co." />
+            </div>
+          </div>
+
+          <hr class="panel-divider" />
+
+          <div class="field-grid field-grid--two">
+            <div class="field">
+              <span class="field-label">Player 1 name</span>
+              <input id="fieldPlayer1" type="text" placeholder="Nick Brown" />
+            </div>
+
+            <div class="field">
+              <span class="field-label">Player 1 team</span>
+              <input id="fieldPlayer1Team" type="text" placeholder="Team Ozark" />
+            </div>
+
+            <div class="field">
+              <span class="field-label">Player 1 score / status</span>
+              <input id="fieldPlayer1Score" type="text" placeholder="-2 thru 7" />
+            </div>
+
+            <div class="field">
+              <span class="field-label">Match status</span>
+              <input id="fieldMatchStatus" type="text" placeholder="1 Up – Ozark" />
+            </div>
+          </div>
+
+          <div class="field-grid field-grid--two">
+            <div class="field">
+              <span class="field-label">Player 2 name</span>
+              <input id="fieldPlayer2" type="text" placeholder="Valley Player" />
+            </div>
+
+            <div class="field">
+              <span class="field-label">Player 2 team</span>
+              <input id="fieldPlayer2Team" type="text" placeholder="Team Valley" />
+            </div>
+
+            <div class="field">
+              <span class="field-label">Player 2 score / status</span>
+              <input id="fieldPlayer2Score" type="text" placeholder="+1 thru 7" />
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION: BRAND BOARD -->
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Brand Board</h2>
+            <p class="panel-subtitle">Keep your editor colors & typography consistent.</p>
+          </div>
+
+          <div class="swatch-grid">
+            <div class="swatch">
+              <div class="swatch-color swatch-color--green"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Ozark Green</div>
+                <div class="swatch-code">#244F3C</div>
+              </div>
+            </div>
+
+            <div class="swatch">
+              <div class="swatch-color swatch-color--gold"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Trophy Gold</div>
+                <div class="swatch-code">#D1A14B</div>
+              </div>
+            </div>
+
+            <div class="swatch">
+              <div class="swatch-color swatch-color--cream"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Scorecard Cream</div>
+                <div class="swatch-code">#F5F0E6</div>
+              </div>
+            </div>
+
+            <div class="swatch">
+              <div class="swatch-color swatch-color--ink"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Scoreboard Ink</div>
+                <div class="swatch-code">#111617</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="type-stack">
+            <div class="type-sample type-sample--headline">
+              Ozark Invitational
+            </div>
+            <div class="type-sample type-sample--body">
+              Heading: heavy, small caps • Body: clean sans • Use gold sparingly for accents.
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- RIGHT COLUMN: PREVIEW AREA -->
+      <section class="lab-column lab-column--right">
+        <section class="panel panel--preview">
+          <div class="panel-header">
+            <h2>Live Preview</h2>
+            <p class="panel-subtitle">This simulates your video frame with the selected overlay on top.</p>
+          </div>
+
+          <div class="preview-frame">
+            <div class="preview-video">
+              <div class="preview-gradient"></div>
+              <div class="preview-horizon"></div>
+              <div class="preview-label">Camera Feed Placeholder</div>
+            </div>
+
+            <!-- OVERLAYS -->
+            <!-- LOWER THIRD -->
+            <div class="overlay overlay--lower-third is-active" data-overlay="lower-third">
+              <div class="lt-header">
+                <span class="lt-tournament" data-bind="tournament" data-default="Ozark Invitational">Ozark Invitational</span>
+                <span class="lt-divider">•</span>
+                <span class="lt-round" data-bind="round" data-default="Day 1 — Best Ball">Day 1 — Best Ball</span>
+              </div>
+              <div class="lt-main">
+                <div class="lt-name" data-bind="player1" data-default="Nick Brown">Nick Brown</div>
+                <div class="lt-meta">
+                  <span class="lt-team" data-bind="player1Team" data-default="Team Ozark">Team Ozark</span>
+                  <span class="lt-pill" data-bind="segment" data-default="Feature Group">Feature Group</span>
+                </div>
+              </div>
+              <div class="lt-sponsor" data-bind="sponsor" data-default="Presented by +3 Golf Co.">Presented by +3 Golf Co.</div>
+            </div>
+
+            <!-- SCORE BUG -->
+            <div class="overlay overlay--score-bug" data-overlay="score-bug">
+              <div class="sb-topline">
+                <span class="sb-tournament" data-bind="tournament" data-default="Ozark Invitational">Ozark Invitational</span>
+              </div>
+              <div class="sb-main">
+                <div class="sb-row">
+                  <span class="sb-label">Match</span>
+                  <span class="sb-value" data-bind="matchStatus" data-default="1 Up — Ozark">1 Up — Ozark</span>
+                </div>
+                <div class="sb-row">
+                  <span class="sb-label" data-bind="player1" data-default="Nick Brown">Nick Brown</span>
+                  <span class="sb-value" data-bind="player1Score" data-default="-2 thru 7">-2 thru 7</span>
+                </div>
+                <div class="sb-row">
+                  <span class="sb-label" data-bind="player2" data-default="Valley Player">Valley Player</span>
+                  <span class="sb-value" data-bind="player2Score" data-default="+1 thru 7">+1 thru 7</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- MATCHUP BAR -->
+            <div class="overlay overlay--matchup-bar" data-overlay="matchup-bar">
+              <div class="mb-meta">
+                <span class="mb-round" data-bind="round" data-default="Day 2 — Singles">Day 2 — Singles</span>
+                <span class="mb-divider">•</span>
+                <span class="mb-segment" data-bind="segment" data-default="Featured Match">Featured Match</span>
+              </div>
+              <div class="mb-main">
+                <div class="mb-side mb-side--left">
+                  <div class="mb-team-label" data-bind="player1Team" data-default="Team Ozark">Team Ozark</div>
+                  <div class="mb-name" data-bind="player1" data-default="Nick Brown">Nick Brown</div>
+                  <div class="mb-score" data-bind="player1Score" data-default="2 Up">2 Up</div>
+                </div>
+                <div class="mb-vs">vs</div>
+                <div class="mb-side mb-side--right">
+                  <div class="mb-team-label" data-bind="player2Team" data-default="Team Valley">Team Valley</div>
+                  <div class="mb-name" data-bind="player2" data-default="Valley Player">Valley Player</div>
+                  <div class="mb-score" data-bind="player2Score" data-default="2 Down">2 Down</div>
+                </div>
+              </div>
+              <div class="mb-sponsor" data-bind="sponsor" data-default="Presented by +3 Golf Co.">Presented by +3 Golf Co.</div>
+            </div>
+          </div>
+
+          <p class="preview-hint">
+            Tip: use this as a wireframe when building overlays in Premiere, DaVinci, or OBS. Match paddings, colors, and positions.
+          </p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="lab-footer">
+      <span>Ozark Invitational Broadcast Lab</span>
+      <span class="dot">&middot;</span>
+      <span>Static prototype – customize freely</span>
+    </footer>
+  </div>
+</body>
+</html>
