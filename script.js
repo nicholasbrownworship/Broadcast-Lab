@@ -17,7 +17,11 @@
     "score-bug":
       "Score bug: use in the corner during live play for match score & status.",
     "matchup-bar":
-      "Matchup bar: use over B-roll or tee shots when introducing players."
+      "Matchup bar: use over tee shots or B-roll when introducing a head-to-head match.",
+    desk:
+      "Desk panel: use when hosts are on camera at the desk, introducing topics or breaking down the round.",
+    "coming-up":
+      "Coming up slate: use over B-roll or wide shots when teasing the next few segments."
   };
 
   function setActiveOverlay(type) {
@@ -54,14 +58,21 @@
     { inputId: "fieldMatchStatus", bindKey: "matchStatus" },
     { inputId: "fieldPlayer2", bindKey: "player2" },
     { inputId: "fieldPlayer2Team", bindKey: "player2Team" },
-    { inputId: "fieldPlayer2Score", bindKey: "player2Score" }
+    { inputId: "fieldPlayer2Score", bindKey: "player2Score" },
+    // Desk / slate
+    { inputId: "fieldHost1", bindKey: "host1" },
+    { inputId: "fieldHost2", bindKey: "host2" },
+    { inputId: "fieldTopic", bindKey: "topic" },
+    { inputId: "fieldComing1", bindKey: "coming1" },
+    { inputId: "fieldComing2", bindKey: "coming2" },
+    { inputId: "fieldComing3", bindKey: "coming3" }
   ];
 
   function updateBoundElements(bindKey, value) {
     const els = $all('[data-bind="' + bindKey + '"]');
     els.forEach((el) => {
       const def = el.getAttribute("data-default") || "";
-      const text = value.trim();
+      const text = (value || "").trim();
       el.textContent = text || def;
     });
   }
@@ -127,7 +138,13 @@
     matchStatus: "2 Up — Ozark",
     player2: "Valley Player",
     player2Team: "Team Valley",
-    player2Score: "+1 thru 8"
+    player2Score: "+1 thru 8",
+    host1: "Nick Brown",
+    host2: "Guest Analyst",
+    topic: "Key matches that could swing the cup",
+    coming1: "Feature Group on 7 tee",
+    coming2: "Mic’d Up: Cart Cam Highlights",
+    coming3: "Scoreboard check & standings"
   };
 
   function loadSampleData() {
