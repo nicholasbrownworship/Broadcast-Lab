@@ -1,4 +1,4 @@
-// Broadcast Lab – Preview / Program with switcher-style transitions + camera preview
+// Broadcast Lab – Preview / Program with camera, overlays, guides & graphics mode
 (function () {
   function $(selector) {
     return document.querySelector(selector);
@@ -15,12 +15,14 @@
   const btnFakeData = $("#btnFakeData");
   const btnTakeLive = $("#btnTakeLive");
   const btnStartCam = $("#btnStartCam");
+  const btnSafeGuides = $("#btnSafeGuides");
+  const btnGraphicsMode = $("#btnGraphicsMode");
   const previewCam = $("#previewCam");
   const liveCam = $("#liveCam");
 
   let camStream = null;
 
-  // Track current overlay types
+  // Overlay state
   let currentPreviewOverlay = "lower-third";
   let currentLiveOverlay = "lower-third";
 
@@ -83,6 +85,20 @@
     }
   });
 
+  // === SAFE GUIDES TOGGLE ===
+  if (btnSafeGuides) {
+    btnSafeGuides.addEventListener("click", () => {
+      document.body.classList.toggle("show-safe-guides");
+    });
+  }
+
+  // === GRAPHICS-ONLY PROGRAM MODE ===
+  if (btnGraphicsMode) {
+    btnGraphicsMode.addEventListener("click", () => {
+      document.body.classList.toggle("graphics-mode");
+    });
+  }
+
   // === OVERLAY SWITCHING ===
 
   function setOverlayImmediate(type, screen) {
@@ -115,12 +131,6 @@
     }, 120);
   }
 
-  if (switchFlash) {
-    switchFlash.addEventListener("animationend", () => {
-      switchFlash.classList.remove("is-on");
-    });
-  }
-
   function changeOverlay(type, screen, animate = true) {
     if (screen === "live" && animate) {
       triggerSwitchFx(() => setOverlayImmediate(type, "live"));
@@ -138,8 +148,9 @@
     });
 
     // Initial state
-    changeOverlay(overlaySelect.value || "lower-third", "preview", false);
-    changeOverlay(overlaySelect.value || "lower-third", "live", false);
+    const initial = overlaySelect.value || "lower-third";
+    changeOverlay(initial, "preview", false);
+    changeOverlay(initial, "live", false);
   }
 
   // === DATA BINDINGS ===
