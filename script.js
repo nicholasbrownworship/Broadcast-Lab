@@ -1,4 +1,5 @@
-// Broadcast Lab – Preview/Program with video + overlay switcher, camera, guides & graphics mode
+// Broadcast Lab – Preview/Program with video + overlay switcher, camera, scenes,
+// hotkeys, guides & graphics mode.
 (function () {
   function $(selector) {
     return document.querySelector(selector);
@@ -20,20 +21,24 @@
   const btnExitGraphics = $("#btnExitGraphics");
   const previewCam = $("#previewCam");
   const liveCam = $("#liveCam");
+  const sceneGrid = $("#sceneGrid");
 
   const previewFrame = document.querySelector(
     ".preview-frame:not(.program-frame)"
   );
   const programFrame = document.querySelector(".preview-frame.program-frame");
 
+  // === STATE ===
   let camStream = null;
 
-  // Overlay & video state
   let currentPreviewOverlay = "lower-third";
   let currentLiveOverlay = "lower-third";
 
   let currentPreviewVideo = "camera";
   let currentLiveVideo = "camera";
+
+  const SCENES_KEY = "broadcastLabScenes_v1";
+  let scenes = [];
 
   // === OVERLAY HELP TEXT ===
   const overlayHelp = {
@@ -47,7 +52,8 @@
       "Desk panel: use when hosts are on camera at the desk, introducing topics or breaking down the round.",
     "coming-up":
       "Coming up slate: use over B-roll or wide shots when teasing the next few segments.",
-    none: "No overlay: clean feed for replays, drone shots, or scoreboard-only looks."
+    none:
+      "No overlay: clean feed for replays, drone shots, or scoreboard-only looks."
   };
 
   // === CAMERA PREVIEW ===
@@ -96,10 +102,12 @@
   });
 
   // === SAFE GUIDES TOGGLE ===
+  function toggleSafeGuides() {
+    document.body.classList.toggle("show-safe-guides");
+  }
+
   if (btnSafeGuides) {
-    btnSafeGuides.addEventListener("click", () => {
-      document.body.classList.toggle("show-safe-guides");
-    });
+    btnSafeGuides.addEventListener("click", toggleSafeGuides);
   }
 
   // === GRAPHICS-ONLY PROGRAM MODE ===
@@ -111,14 +119,16 @@
     document.body.classList.remove("graphics-mode");
   }
 
+  function toggleGraphicsMode() {
+    if (document.body.classList.contains("graphics-mode")) {
+      exitGraphicsMode();
+    } else {
+      enterGraphicsMode();
+    }
+  }
+
   if (btnGraphicsMode) {
-    btnGraphicsMode.addEventListener("click", () => {
-      if (document.body.classList.contains("graphics-mode")) {
-        exitGraphicsMode();
-      } else {
-        enterGraphicsMode();
-      }
-    });
+    btnGraphicsMode.addEventListener("click", toggleGraphicsMode);
   }
 
   if (btnExitGraphics) {
@@ -132,6 +142,19 @@
   function setVideoSource(frame, source) {
     if (!frame) return;
     frame.dataset.videoSource = source;
+  }
+
+  function cycleVideoSource() {
+    if (!videoSourceSelect) return;
+    const options = Array.from(videoSourceSelect.options).map((o) => o.value);
+    if (!options.length) return;
+
+    const idx = options.indexOf(currentPreviewVideo);
+    const next = options[(idx + 1) % options.length];
+
+    currentPreviewVideo = next;
+    videoSourceSelect.value = next;
+    setVideoSource(previewFrame, next);
   }
 
   if (videoSourceSelect) {
@@ -196,6 +219,18 @@
     }
   }
 
+  function cycleOverlay() {
+    if (!overlaySelect) return;
+    const options = Array.from(overlaySelect.options).map((o) => o.value);
+    if (!options.length) return;
+
+    const idx = options.indexOf(currentPreviewOverlay);
+    const next = options[(idx + 1) % options.length];
+
+    overlaySelect.value = next;
+    changeOverlay(next, "preview", false);
+  }
+
   if (overlaySelect) {
     overlaySelect.addEventListener("change", () => {
       const val = overlaySelect.value || "lower-third";
@@ -238,7 +273,6 @@
   ];
 
   function updateBoundElements(bindKey, value, target) {
-    // target: "preview" or "live"
     const selector =
       '[data-bind="' + bindKey + '"][data-target="' + target + '"]';
     const els = $all(selector);
@@ -276,14 +310,16 @@
     }
   }
 
+  function toggleTheme() {
+    const body = document.body;
+    const nextTheme = body.classList.contains("theme-light")
+      ? "dark"
+      : "light";
+    applyTheme(nextTheme);
+  }
+
   if (btnThemeToggle) {
-    btnThemeToggle.addEventListener("click", () => {
-      const body = document.body;
-      const nextTheme = body.classList.contains("theme-light")
-        ? "dark"
-        : "light";
-      applyTheme(nextTheme);
-    });
+    btnThemeToggle.addEventListener("click", toggleTheme);
   }
 
   (function initTheme() {
@@ -347,6 +383,164 @@
     }
   })();
 
+  // === SCENES ===
+
+  function captureCurrentPreviewFields() {
+    const data = {};
+    bindings.forEach(({ inputId, bindKey }) => {
+      const input = $("#" + inputId);
+      data[bindKey] = input ? input.value || "" : "";
+    });
+    return data;
+  }
+
+  function applyFieldsToPreview(fields) {
+    if (!fields) return;
+    bindings.forEach(({ inputId, bindKey }) => {
+      const val = fields[bindKey];
+      if (typeof val !== "string") return;
+      const input = $("#" + inputId);
+      if (input) {
+        input.value = val;
+        updateBoundElements(bindKey, val, "preview");
+      }
+    });
+  }
+
+  function saveScenesToStorage() {
+    try {
+      localStorage.setItem(SCENES_KEY, JSON.stringify(scenes));
+    } catch (_) {
+      // ignore
+    }
+  }
+
+  function refreshSceneUI() {
+    if (!sceneGrid) return;
+    const rows = sceneGrid.querySelectorAll(".scene-row");
+    rows.forEach((row) => {
+      const idx = parseInt(row.dataset.sceneIndex, 10) || 0;
+      const scene = scenes[idx];
+      if (!scene) return;
+
+      const nameInput = row.querySelector(".scene-name-input");
+      const metaEl = row.querySelector("[data-scene-meta]");
+
+      if (nameInput) {
+        nameInput.value = scene.name || "";
+      }
+
+      if (metaEl) {
+        const overlayLabel =
+          scene.overlay === "none"
+            ? "No overlay"
+            : (scene.overlay || "lower-third");
+        const videoLabel = scene.videoSource || "camera";
+        const hasFields =
+          scene.fields && Object.keys(scene.fields).length > 0;
+
+        metaEl.textContent = hasFields
+          ? overlayLabel + " • " + videoLabel
+          : "Empty scene – Save to capture current preview.";
+      }
+    });
+  }
+
+  function loadScenes() {
+    try {
+      const raw = localStorage.getItem(SCENES_KEY);
+      scenes = raw ? JSON.parse(raw) : [];
+    } catch (_) {
+      scenes = [];
+    }
+    if (!Array.isArray(scenes)) {
+      scenes = [];
+    }
+    // Ensure four slots
+    for (let i = 0; i < 4; i++) {
+      if (!scenes[i]) {
+        scenes[i] = {
+          id: i + 1,
+          name: "",
+          overlay: "lower-third",
+          videoSource: "camera",
+          fields: {}
+        };
+      }
+    }
+    refreshSceneUI();
+  }
+
+  function saveScene(index) {
+    const scene = scenes[index];
+    if (!scene) return;
+
+    scene.overlay = currentPreviewOverlay;
+    scene.videoSource = currentPreviewVideo;
+    scene.fields = captureCurrentPreviewFields();
+
+    saveScenesToStorage();
+    refreshSceneUI();
+  }
+
+  function recallScene(index) {
+    const scene = scenes[index];
+    if (!scene) return;
+
+    const overlay = scene.overlay || "lower-third";
+    const videoSource = scene.videoSource || "camera";
+
+    // Apply overlay to preview
+    if (overlaySelect) {
+      overlaySelect.value = overlay;
+    }
+    changeOverlay(overlay, "preview", false);
+
+    // Apply video source to preview
+    if (videoSourceSelect) {
+      videoSourceSelect.value = videoSource;
+    }
+    currentPreviewVideo = videoSource;
+    setVideoSource(previewFrame, currentPreviewVideo);
+
+    // Apply fields to preview inputs/bindings
+    applyFieldsToPreview(scene.fields);
+  }
+
+  if (sceneGrid) {
+    sceneGrid.addEventListener("click", function (evt) {
+      const btn = evt.target.closest(".scene-btn");
+      if (!btn) return;
+      const row = btn.closest(".scene-row");
+      if (!row) return;
+
+      const idx = parseInt(row.dataset.sceneIndex, 10) || 0;
+      const action = btn.getAttribute("data-scene-action");
+
+      if (action === "save") {
+        saveScene(idx);
+      } else if (action === "recall") {
+        recallScene(idx);
+      }
+    });
+
+    sceneGrid.addEventListener("input", function (evt) {
+      const input = evt.target;
+      if (!input.classList.contains("scene-name-input")) return;
+      const row = input.closest(".scene-row");
+      if (!row) return;
+      const idx = parseInt(row.dataset.sceneIndex, 10) || 0;
+      const scene = scenes[idx];
+      if (!scene) return;
+
+      scene.name = input.value || "";
+      saveScenesToStorage();
+    });
+  }
+
+  // Load scenes on startup
+  loadScenes();
+
   // === TAKE TO LIVE ===
 
   function takeToLive() {
@@ -374,4 +568,74 @@
       takeToLive();
     });
   }
+
+  // === GLOBAL HOTKEYS ===
+  function handleGlobalHotkeys(e) {
+    // Ignore when typing in form fields
+    const target = e.target;
+    if (
+      target &&
+      (target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT" ||
+        target.isContentEditable)
+    ) {
+      return;
+    }
+
+    // Ignore when modifier keys are held
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+    const key = e.key;
+
+    switch (key) {
+      case " ":
+        // Space = TAKE live
+        e.preventDefault();
+        takeToLive();
+        break;
+      case "1":
+      case "2":
+      case "3":
+      case "4": {
+        const idx = parseInt(key, 10) - 1;
+        recallScene(idx);
+        break;
+      }
+      case "g":
+      case "G":
+        e.preventDefault();
+        toggleGraphicsMode();
+        break;
+      case "s":
+      case "S":
+        e.preventDefault();
+        toggleSafeGuides();
+        break;
+      case "t":
+      case "T":
+        e.preventDefault();
+        toggleTheme();
+        break;
+      case "f":
+      case "F":
+        e.preventDefault();
+        loadSampleData();
+        break;
+      case "v":
+      case "V":
+        e.preventDefault();
+        cycleVideoSource();
+        break;
+      case "o":
+      case "O":
+        e.preventDefault();
+        cycleOverlay();
+        break;
+      default:
+        break;
+    }
+  }
+
+  document.addEventListener("keydown", handleGlobalHotkeys);
 })();
