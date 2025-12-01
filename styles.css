@@ -147,10 +147,16 @@ body.theme-light .ghost-btn {
   transform: translateY(-1px);
 }
 
+/* 
+   MAIN LAYOUT
+   - Now vertical: Preview/Program panel spans full width at the top.
+   - Control panels stack underneath.
+*/
+
 .lab-main {
   flex: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+  display: flex;
+  flex-direction: column;
   gap: 16px;
 }
 
@@ -158,6 +164,11 @@ body.theme-light .ghost-btn {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+/* Put the preview/program column (right) ABOVE the controls (left) */
+.lab-column--right {
+  order: -1;
 }
 
 /* PANELS */
@@ -934,14 +945,6 @@ select:focus {
 /* RESPONSIVE */
 
 @media (max-width: 880px) {
-  .lab-main {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .panel--preview {
-    order: -1;
-  }
-
   .lab-topbar {
     flex-direction: column;
     align-items: flex-start;
