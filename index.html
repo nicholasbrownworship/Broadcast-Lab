@@ -68,6 +68,7 @@
                 <option value="matchup-bar">Matchup Bar – vs Graphic</option>
                 <option value="desk">Desk Panel – Hosts & Topic</option>
                 <option value="coming-up">Coming Up – Segment Slate</option>
+                <option value="none">No Overlay</option>
               </select>
             </label>
 
@@ -273,6 +274,8 @@
                 <!-- LOWER THIRD -->
                 <div class="overlay overlay--lower-third is-active"
                      data-overlay="lower-third" data-screen="preview">
+                  <div class="overlay-switch-flash"></div>
+
                   <div class="lt-header">
                     <span class="lt-tournament"
                           data-bind="tournament" data-target="preview"
@@ -305,6 +308,8 @@
                 <!-- SCORE BUG -->
                 <div class="overlay overlay--score-bug"
                      data-overlay="score-bug" data-screen="preview">
+                  <div class="overlay-switch-flash"></div>
+
                   <div class="sb-topline">
                     <span class="sb-tournament"
                           data-bind="tournament" data-target="preview"
@@ -339,6 +344,8 @@
                 <!-- MATCHUP BAR -->
                 <div class="overlay overlay--matchup-bar"
                      data-overlay="matchup-bar" data-screen="preview">
+                  <div class="overlay-switch-flash"></div>
+
                   <div class="mb-meta">
                     <span class="mb-round"
                           data-bind="round" data-target="preview"
@@ -383,6 +390,8 @@
                 <!-- DESK PANEL -->
                 <div class="overlay overlay--desk"
                      data-overlay="desk" data-screen="preview">
+                  <div class="overlay-switch-flash"></div>
+
                   <div class="desk-meta">
                     <span class="desk-tournament"
                           data-bind="tournament" data-target="preview"
@@ -417,6 +426,8 @@
                 <!-- COMING UP SLATE -->
                 <div class="overlay overlay--coming-up"
                      data-overlay="coming-up" data-screen="preview">
+                  <div class="overlay-switch-flash"></div>
+
                   <div class="cu-header">
                     <span class="cu-label">Coming Up</span>
                     <span class="cu-divider"></span>
@@ -471,9 +482,6 @@
                   <div class="preview-label preview-label--live">Program Feed</div>
                 </div>
 
-                <!-- SWITCH FLASH LAYER (LIVE ONLY) -->
-                <div class="switch-flash" id="programSwitchFlash"></div>
-
                 <!-- EXIT GRAPHICS MODE BUTTON -->
                 <button id="btnExitGraphics" class="graphics-exit-btn" type="button">
                   ✕ Exit
@@ -483,6 +491,8 @@
                 <!-- LOWER THIRD -->
                 <div class="overlay overlay--lower-third is-active"
                      data-overlay="lower-third" data-screen="live">
+                  <div class="overlay-switch-flash"></div>
+
                   <div class="lt-header">
                     <span class="lt-tournament"
                           data-bind="tournament" data-target="live"
@@ -515,6 +525,8 @@
                 <!-- SCORE BUG -->
                 <div class="overlay overlay--score-bug"
                      data-overlay="score-bug" data-screen="live">
+                  <div class="overlay-switch-flash"></div>
+
                   <div class="sb-topline">
                     <span class="sb-tournament"
                           data-bind="tournament" data-target="live"
@@ -549,6 +561,8 @@
                 <!-- MATCHUP BAR -->
                 <div class="overlay overlay--matchup-bar"
                      data-overlay="matchup-bar" data-screen="live">
+                  <div class="overlay-switch-flash"></div>
+
                   <div class="mb-meta">
                     <span class="mb-round"
                           data-bind="round" data-target="live"
@@ -593,6 +607,8 @@
                 <!-- DESK PANEL -->
                 <div class="overlay overlay--desk"
                      data-overlay="desk" data-screen="live">
+                  <div class="overlay-switch-flash"></div>
+
                   <div class="desk-meta">
                     <span class="desk-tournament"
                           data-bind="tournament" data-target="live"
@@ -627,6 +643,8 @@
                 <!-- COMING UP SLATE -->
                 <div class="overlay overlay--coming-up"
                      data-overlay="coming-up" data-screen="live">
+                  <div class="overlay-switch-flash"></div>
+
                   <div class="cu-header">
                     <span class="cu-label">Coming Up</span>
                     <span class="cu-divider"></span>
@@ -662,7 +680,7 @@
           </div>
 
           <p class="preview-hint">
-            Workflow: choose video + overlay in <strong>Preview</strong>, then hit <strong>TAKE ⮕ LIVE</strong> to switch the <strong>Program</strong> (with a flash). Use <strong>Graphics Mode</strong> + fullscreen for a clean program feed; use the ✕ button to exit.
+            Workflow: choose video + overlay in <strong>Preview</strong>, then hit <strong>TAKE ⮕ LIVE</strong> to switch the <strong>Program</strong> with a subtle overlay wipe. Use <strong>Graphics Mode</strong> + fullscreen for a clean program feed; use the ✕ button to exit.
           </p>
         </section>
       </section>
