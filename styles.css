@@ -547,6 +547,34 @@ select:focus {
   }
 }
 
+/* EXIT GRAPHICS MODE BUTTON */
+
+.graphics-exit-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(248, 250, 252, 0.8);
+  background: rgba(15, 23, 42, 0.82);
+  color: #f9fafb;
+  cursor: pointer;
+  display: none;
+  z-index: 20;
+}
+
+.graphics-exit-btn:hover {
+  background: rgba(15, 23, 42, 0.96);
+}
+
+/* Only visible in graphics mode */
+body.graphics-mode .graphics-exit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 /* OVERLAYS BASE */
 
 .overlay {
