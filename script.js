@@ -1,4 +1,4 @@
-// Broadcast Lab – basic interactivity
+// Broadcast Lab – basic interactivity with switcher-style transitions
 (function () {
   function $(selector) {
     return document.querySelector(selector);
@@ -7,9 +7,14 @@
     return Array.from(document.querySelectorAll(selector));
   }
 
-  // ========== OVERLAY SWITCHER ==========
+  // Elements
   const overlaySelect = $("#overlaySelect");
   const overlayNotes = $("#overlayNotes");
+  const switchFlash = $(".switch-flash");
+  const btnThemeToggle = $("#btnThemeToggle");
+  const btnFakeData = $("#btnFakeData");
+
+  // ========== OVERLAY SWITCHER & HELP TEXT ==========
 
   const overlayHelp = {
     "lower-third":
@@ -24,7 +29,8 @@
       "Coming up slate: use over B-roll or wide shots when teasing the next few segments."
   };
 
-  function setActiveOverlay(type) {
+  function setOverlayImmediate(type) {
+    // Toggle overlays
     $all(".overlay").forEach((el) => {
       if (el.dataset.overlay === type) {
         el.classList.add("is-active");
@@ -33,20 +39,53 @@
       }
     });
 
+    // Update help text
     if (overlayNotes) {
       overlayNotes.textContent = overlayHelp[type] || "";
     }
   }
 
+  function triggerSwitchFx(callback) {
+    if (!switchFlash) {
+      if (typeof callback === "function") callback();
+      return;
+    }
+
+    // Reset animation
+    switchFlash.classList.remove("is-on");
+    void switchFlash.offsetWidth; // force reflow
+    switchFlash.classList.add("is-on");
+
+    // Change overlay mid-flash
+    setTimeout(() => {
+      if (typeof callback === "function") callback();
+    }, 120);
+  }
+
+  if (switchFlash) {
+    switchFlash.addEventListener("animationend", () => {
+      switchFlash.classList.remove("is-on");
+    });
+  }
+
+  function changeOverlay(type, animate = true) {
+    if (animate) {
+      triggerSwitchFx(() => setOverlayImmediate(type));
+    } else {
+      setOverlayImmediate(type);
+    }
+  }
+
   if (overlaySelect) {
     overlaySelect.addEventListener("change", () => {
-      setActiveOverlay(overlaySelect.value);
+      changeOverlay(overlaySelect.value, true);
     });
-    // Initial state
-    setActiveOverlay(overlaySelect.value || "lower-third");
+    // Initial state – no animation on load
+    changeOverlay(overlaySelect.value || "lower-third", false);
   }
 
   // ========== DATA BINDINGS ==========
+
   const bindings = [
     { inputId: "fieldTournament", bindKey: "tournament" },
     { inputId: "fieldRound", bindKey: "round" },
@@ -87,7 +126,6 @@
   });
 
   // ========== THEME TOGGLE ==========
-  const btnThemeToggle = $("#btnThemeToggle");
 
   function applyTheme(theme) {
     const body = document.body;
@@ -113,7 +151,6 @@
     });
   }
 
-  // Initialize theme from storage
   (function initTheme() {
     let theme = "dark";
     try {
@@ -125,7 +162,6 @@
   })();
 
   // ========== FAKE DATA / SAMPLE BUTTON ==========
-  const btnFakeData = $("#btnFakeData");
 
   const sampleData = {
     tournament: "Ozark Invitational",
@@ -164,7 +200,6 @@
     });
   }
 
-  // Optionally preload sample data once on first visit
   (function initSampleOnce() {
     try {
       const flag = localStorage.getItem("broadcastLabSampleLoaded");
