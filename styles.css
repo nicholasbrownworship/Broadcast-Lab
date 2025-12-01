@@ -279,6 +279,83 @@ select:focus {
   border: 1px solid rgba(148, 163, 184, 0.4);
 }
 
+/* SCENES PANEL */
+
+.scenes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.scene-slot {
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(15, 23, 42, 0.7);
+}
+
+body.theme-light .scene-slot {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.scene-slot--filled {
+  border-color: rgba(56, 189, 248, 0.8);
+}
+
+.scene-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.scene-load-btn,
+.scene-save-btn {
+  flex: 1;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.theme-light .scene-load-btn,
+body.theme-light .scene-save-btn {
+  background: rgba(255, 255, 255, 0.96);
+  color: #111827;
+}
+
+.scene-load-btn:hover,
+.scene-save-btn:hover {
+  filter: brightness(1.05);
+}
+
+.scene-load-btn {
+  font-weight: 600;
+}
+
+.scene-save-btn {
+  opacity: 0.85;
+}
+
+.scene-meta {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.scene-hint {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
 /* BRAND BOARD */
 
 .swatch-grid {
@@ -1089,6 +1166,10 @@ body.graphics-mode .preview-frame {
 
 @media (max-width: 600px) {
   .field-grid--two {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .scenes-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
