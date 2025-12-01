@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="topbar-actions">
-        <!-- NEW: Sponsor Manager link -->
+        <!-- Link to sponsor manager -->
         <a href="sponsors.html" class="ghost-btn" target="_blank" rel="noopener">
           Sponsor Manager
         </a>
@@ -190,6 +190,22 @@
               <span class="field-label">Sponsor line</span>
               <input id="fieldSponsor" type="text" placeholder="Presented by +3 Golf Co." />
             </div>
+          </div>
+
+          <!-- NEW: Saved sponsors picker -->
+          <div class="field">
+            <span class="field-label">Saved sponsors</span>
+            <div class="sponsor-picker-row">
+              <select id="savedSponsorSelect">
+                <option value="">No saved sponsors yet</option>
+              </select>
+              <button id="btnApplySponsor" class="ghost-btn" type="button">
+                Use Sponsor
+              </button>
+            </div>
+            <p class="sponsor-picker-hint">
+              Manage sponsors in the <strong>Sponsor Manager</strong> (top-right). Saved sponsors appear here and can be dropped into the Sponsor line.
+            </p>
           </div>
 
           <hr class="panel-divider" />
@@ -780,5 +796,87 @@
       <span>Preview / Program prototype – customize freely</span>
     </footer>
   </div>
+
+  <!-- Inline sponsor integration script (doesn't touch your existing script.js) -->
+  <script>
+    (function () {
+      const STORAGE_KEY = "ozarkSponsors_v1";
+      const sponsorSelect = document.getElementById("savedSponsorSelect");
+      const applyBtn = document.getElementById("btnApplySponsor");
+      const sponsorInput = document.getElementById("fieldSponsor");
+
+      if (!sponsorSelect || !applyBtn || !sponsorInput) return;
+
+      function loadSponsors() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return [];
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+          console.warn("Error reading sponsors", e);
+          return [];
+        }
+      }
+
+      function refreshSponsorSelect() {
+        const sponsors = loadSponsors();
+
+        sponsorSelect.innerHTML = "";
+
+        if (!sponsors.length) {
+          const opt = document.createElement("option");
+          opt.value = "";
+          opt.textContent = "No saved sponsors yet";
+          sponsorSelect.appendChild(opt);
+          sponsorSelect.disabled = true;
+          applyBtn.disabled = true;
+          return;
+        }
+
+        sponsorSelect.disabled = false;
+        applyBtn.disabled = false;
+
+        const placeholder = document.createElement("option");
+        placeholder.value = "";
+        placeholder.textContent = "Choose a saved sponsor…";
+        sponsorSelect.appendChild(placeholder);
+
+        sponsors.forEach((sp) => {
+          const opt = document.createElement("option");
+          opt.value = sp.id;
+          opt.textContent = sp.name || sp.line || "Sponsor";
+          opt.dataset.line = sp.line || ("Presented by " + (sp.name || "Sponsor"));
+          sponsorSelect.appendChild(opt);
+        });
+      }
+
+      applyBtn.addEventListener("click", function () {
+        const selected = sponsorSelect.options[sponsorSelect.selectedIndex];
+        if (!selected || !selected.value) return;
+
+        const line = selected.dataset.line || selected.textContent;
+        sponsorInput.value = line;
+
+        // Make sure your existing binding logic sees the change
+        const evt = new Event("input", { bubbles: true });
+        sponsorInput.dispatchEvent(evt);
+      });
+
+      // Update if sponsors change in another tab
+      window.addEventListener("storage", function (evt) {
+        if (evt.key === STORAGE_KEY) {
+          refreshSponsorSelect();
+        }
+      });
+
+      // Also refresh when you come back to the tab
+      document.addEventListener("visibilitychange", function () {
+        if (!document.hidden) refreshSponsorSelect();
+      });
+
+      refreshSponsorSelect();
+    })();
+  </script>
 </body>
 </html>
