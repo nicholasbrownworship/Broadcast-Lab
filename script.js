@@ -18,6 +18,7 @@
   const btnStartCam = $("#btnStartCam");
   const btnSafeGuides = $("#btnSafeGuides");
   const btnGraphicsMode = $("#btnGraphicsMode");
+  const btnExitGraphics = $("#btnExitGraphics");
   const previewCam = $("#previewCam");
   const liveCam = $("#liveCam");
 
@@ -102,9 +103,27 @@
   }
 
   // === GRAPHICS-ONLY PROGRAM MODE ===
+  function enterGraphicsMode() {
+    document.body.classList.add("graphics-mode");
+  }
+
+  function exitGraphicsMode() {
+    document.body.classList.remove("graphics-mode");
+  }
+
   if (btnGraphicsMode) {
     btnGraphicsMode.addEventListener("click", () => {
-      document.body.classList.toggle("graphics-mode");
+      if (document.body.classList.contains("graphics-mode")) {
+        exitGraphicsMode();
+      } else {
+        enterGraphicsMode();
+      }
+    });
+  }
+
+  if (btnExitGraphics) {
+    btnExitGraphics.addEventListener("click", () => {
+      exitGraphicsMode();
     });
   }
 
