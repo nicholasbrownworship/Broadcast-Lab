@@ -1,4 +1,4 @@
-// Broadcast Lab – Preview / Program with camera, overlays, guides & graphics mode
+// Broadcast Lab – Preview/Program with video + overlay switcher, camera, guides & graphics mode
 (function () {
   function $(selector) {
     return document.querySelector(selector);
@@ -10,6 +10,7 @@
   // === ELEMENTS ===
   const overlaySelect = $("#overlaySelect");
   const overlayNotes = $("#overlayNotes");
+  const videoSourceSelect = $("#videoSourceSelect");
   const switchFlash = $("#programSwitchFlash");
   const btnThemeToggle = $("#btnThemeToggle");
   const btnFakeData = $("#btnFakeData");
@@ -20,11 +21,19 @@
   const previewCam = $("#previewCam");
   const liveCam = $("#liveCam");
 
+  const previewFrame = document.querySelector(
+    ".preview-frame:not(.program-frame)"
+  );
+  const programFrame = document.querySelector(".preview-frame.program-frame");
+
   let camStream = null;
 
-  // Overlay state
+  // Overlay & video state
   let currentPreviewOverlay = "lower-third";
   let currentLiveOverlay = "lower-third";
+
+  let currentPreviewVideo = "camera";
+  let currentLiveVideo = "camera";
 
   // === OVERLAY HELP TEXT ===
   const overlayHelp = {
@@ -98,6 +107,25 @@
       document.body.classList.toggle("graphics-mode");
     });
   }
+
+  // === VIDEO SOURCE SWITCHING ===
+
+  function setVideoSource(frame, source) {
+    if (!frame) return;
+    frame.dataset.videoSource = source;
+  }
+
+  if (videoSourceSelect) {
+    videoSourceSelect.addEventListener("change", () => {
+      const val = videoSourceSelect.value || "camera";
+      currentPreviewVideo = val;
+      setVideoSource(previewFrame, val);
+    });
+  }
+
+  // Initialize video source state
+  setVideoSource(previewFrame, currentPreviewVideo);
+  setVideoSource(programFrame, currentLiveVideo);
 
   // === OVERLAY SWITCHING ===
 
@@ -297,8 +325,15 @@
     });
 
     // 2) Switch the overlay type on the live/program frame with flash
-    const newType = currentPreviewOverlay;
-    changeOverlay(newType, "live", true);
+    const newOverlay = currentPreviewOverlay;
+    const newVideoSource = currentPreviewVideo;
+
+    // Video source first (so flash covers the cut)
+    currentLiveVideo = newVideoSource;
+    setVideoSource(programFrame, currentLiveVideo);
+
+    // Overlay cut with flash
+    changeOverlay(newOverlay, "live", true);
   }
 
   if (btnTakeLive) {
