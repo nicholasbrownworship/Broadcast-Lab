@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Broadcast Lab – Ozark Invitational</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Sandbox for Ozark Invitational broadcast overlays, branding, and graphics layouts." />
+  <meta name="description" content="Sandbox for Ozark Invitational broadcast overlays, camera framing, and graphics layouts." />
   <link rel="stylesheet" href="styles.css" />
   <script src="script.js" defer></script>
 </head>
@@ -23,13 +23,15 @@
         <button id="btnThemeToggle" class="ghost-btn" type="button">Toggle Dark Mode</button>
         <button id="btnFakeData" class="ghost-btn" type="button">Load Sample Data</button>
         <button id="btnStartCam" class="ghost-btn" type="button">Start Camera Preview</button>
+        <button id="btnSafeGuides" class="ghost-btn" type="button">Safe Guides</button>
+        <button id="btnGraphicsMode" class="ghost-btn" type="button">Graphics Mode</button>
       </div>
     </header>
 
     <main class="lab-main">
       <!-- LEFT COLUMN: CONTROLS & BRAND BOARD -->
       <section class="lab-column lab-column--left">
-        <!-- SECTION: OVERLAY PICKER -->
+        <!-- OVERLAY PICKER -->
         <section class="panel">
           <div class="panel-header">
             <h2>Overlay Presets</h2>
@@ -54,7 +56,7 @@
           </div>
         </section>
 
-        <!-- SECTION: TEXT FIELDS (CORE CONTENT) -->
+        <!-- CONTENT CONTROLS -->
         <section class="panel">
           <div class="panel-header">
             <h2>Content Controls</h2>
@@ -125,7 +127,7 @@
           </div>
         </section>
 
-        <!-- SECTION: DESK & SLATE CONTROLS -->
+        <!-- DESK & SLATE CONTROLS -->
         <section class="panel">
           <div class="panel-header">
             <h2>Desk & Slate Controls</h2>
@@ -167,7 +169,7 @@
           </div>
         </section>
 
-        <!-- SECTION: BRAND BOARD -->
+        <!-- BRAND BOARD -->
         <section class="panel">
           <div class="panel-header">
             <h2>Brand Board</h2>
@@ -224,7 +226,9 @@
         <section class="panel panel--preview">
           <div class="panel-header">
             <h2>Preview & Program</h2>
-            <p class="panel-subtitle">Left: tweak & line up shots. Right: on-air look. Use TAKE to cut.</p>
+            <p class="panel-subtitle">
+              Left: tweak & line up shots. Right: on-air look. Use TAKE to cut. Graphics Mode shows the Program frame full-screen.
+            </p>
           </div>
 
           <div class="preview-layout">
@@ -632,7 +636,7 @@
           </div>
 
           <p class="preview-hint">
-            Workflow: choose a layout, tweak content in <strong>Preview</strong>, then hit <strong>TAKE ⮕ LIVE</strong> to update the <strong>Program</strong> with a switcher flash. Use <strong>Start Camera Preview</strong> to see your actual camera under the overlays.
+            Workflow: choose a layout, tweak content in <strong>Preview</strong>, then hit <strong>TAKE ⮕ LIVE</strong> to update the <strong>Program</strong> with a switcher flash. Use <strong>Start Camera Preview</strong> to see framing, <strong>Safe Guides</strong> to check title-safe, and <strong>Graphics Mode</strong> for a clean Program feed.
           </p>
         </section>
       </section>
