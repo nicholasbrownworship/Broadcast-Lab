@@ -1,4 +1,4 @@
-// Broadcast Lab – basic interactivity with switcher-style transitions
+// Broadcast Lab – Preview / Program with switcher-style transitions
 (function () {
   function $(selector) {
     return document.querySelector(selector);
@@ -7,15 +7,19 @@
     return Array.from(document.querySelectorAll(selector));
   }
 
-  // Elements
+  // === ELEMENTS ===
   const overlaySelect = $("#overlaySelect");
   const overlayNotes = $("#overlayNotes");
-  const switchFlash = $(".switch-flash");
+  const switchFlash = $("#programSwitchFlash");
   const btnThemeToggle = $("#btnThemeToggle");
   const btnFakeData = $("#btnFakeData");
+  const btnTakeLive = $("#btnTakeLive");
 
-  // ========== OVERLAY SWITCHER & HELP TEXT ==========
+  // Track current overlay types
+  let currentPreviewOverlay = "lower-third";
+  let currentLiveOverlay = "lower-third";
 
+  // === OVERLAY HELP TEXT ===
   const overlayHelp = {
     "lower-third":
       "Lower third: use for intros, interviews, and feature segments.",
@@ -29,9 +33,11 @@
       "Coming up slate: use over B-roll or wide shots when teasing the next few segments."
   };
 
-  function setOverlayImmediate(type) {
-    // Toggle overlays
-    $all(".overlay").forEach((el) => {
+  // === OVERLAY SWITCHING ===
+
+  function setOverlayImmediate(type, screen) {
+    // screen: "preview" or "live"
+    $all('.overlay[data-screen="' + screen + '"]').forEach((el) => {
       if (el.dataset.overlay === type) {
         el.classList.add("is-active");
       } else {
@@ -39,8 +45,7 @@
       }
     });
 
-    // Update help text
-    if (overlayNotes) {
+    if (screen === "preview" && overlayNotes) {
       overlayNotes.textContent = overlayHelp[type] || "";
     }
   }
@@ -51,12 +56,10 @@
       return;
     }
 
-    // Reset animation
     switchFlash.classList.remove("is-on");
-    void switchFlash.offsetWidth; // force reflow
+    void switchFlash.offsetWidth; // reflow
     switchFlash.classList.add("is-on");
 
-    // Change overlay mid-flash
     setTimeout(() => {
       if (typeof callback === "function") callback();
     }, 120);
@@ -68,23 +71,28 @@
     });
   }
 
-  function changeOverlay(type, animate = true) {
-    if (animate) {
-      triggerSwitchFx(() => setOverlayImmediate(type));
+  function changeOverlay(type, screen, animate = true) {
+    if (screen === "live" && animate) {
+      triggerSwitchFx(() => setOverlayImmediate(type, "live"));
+      currentLiveOverlay = type;
     } else {
-      setOverlayImmediate(type);
+      setOverlayImmediate(type, screen);
+      if (screen === "preview") currentPreviewOverlay = type;
     }
   }
 
   if (overlaySelect) {
     overlaySelect.addEventListener("change", () => {
-      changeOverlay(overlaySelect.value, true);
+      const val = overlaySelect.value || "lower-third";
+      changeOverlay(val, "preview", false);
     });
-    // Initial state – no animation on load
-    changeOverlay(overlaySelect.value || "lower-third", false);
+
+    // Initial state
+    changeOverlay(overlaySelect.value || "lower-third", "preview", false);
+    changeOverlay(overlaySelect.value || "lower-third", "live", false);
   }
 
-  // ========== DATA BINDINGS ==========
+  // === DATA BINDINGS ===
 
   const bindings = [
     { inputId: "fieldTournament", bindKey: "tournament" },
@@ -107,8 +115,12 @@
     { inputId: "fieldComing3", bindKey: "coming3" }
   ];
 
-  function updateBoundElements(bindKey, value) {
-    const els = $all('[data-bind="' + bindKey + '"]');
+  function updateBoundElements(bindKey, value, target) {
+    // target: "preview" or "live"
+    const selector =
+      '[data-bind="' + bindKey + '"][data-target="' + target + '"]';
+    const els = $all(selector);
+
     els.forEach((el) => {
       const def = el.getAttribute("data-default") || "";
       const text = (value || "").trim();
@@ -116,16 +128,17 @@
     });
   }
 
+  // Inputs drive PREVIEW only
   bindings.forEach(({ inputId, bindKey }) => {
     const input = $("#" + inputId);
     if (!input) return;
 
     input.addEventListener("input", () => {
-      updateBoundElements(bindKey, input.value || "");
+      updateBoundElements(bindKey, input.value || "", "preview");
     });
   });
 
-  // ========== THEME TOGGLE ==========
+  // === THEME TOGGLE ===
 
   function applyTheme(theme) {
     const body = document.body;
@@ -137,7 +150,7 @@
     try {
       localStorage.setItem("broadcastLabTheme", theme);
     } catch (_) {
-      // ignore storage errors
+      // ignore
     }
   }
 
@@ -161,7 +174,7 @@
     applyTheme(theme);
   })();
 
-  // ========== FAKE DATA / SAMPLE BUTTON ==========
+  // === SAMPLE DATA ===
 
   const sampleData = {
     tournament: "Ozark Invitational",
@@ -187,10 +200,10 @@
     bindings.forEach(({ inputId, bindKey }) => {
       const val = sampleData[bindKey];
       const input = $("#" + inputId);
-      if (input && typeof val === "string") {
-        input.value = val;
-        updateBoundElements(bindKey, val);
-      }
+      if (!input || typeof val !== "string") return;
+      input.value = val;
+      updateBoundElements(bindKey, val, "preview");
+      updateBoundElements(bindKey, val, "live");
     });
   }
 
@@ -211,4 +224,25 @@
       // ignore
     }
   })();
+
+  // === TAKE TO LIVE ===
+
+  function takeToLive() {
+    // 1) Copy all text values from preview (inputs) to live bindings
+    bindings.forEach(({ inputId, bindKey }) => {
+      const input = $("#" + inputId);
+      const val = input ? input.value || "" : "";
+      updateBoundElements(bindKey, val, "live");
+    });
+
+    // 2) Switch the overlay type on the live/program frame with flash
+    const newType = currentPreviewOverlay;
+    changeOverlay(newType, "live", true);
+  }
+
+  if (btnTakeLive) {
+    btnTakeLive.addEventListener("click", () => {
+      takeToLive();
+    });
+  }
 })();
