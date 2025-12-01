@@ -435,6 +435,17 @@ select:focus {
   aspect-ratio: 16 / 9;
 }
 
+.cam-feed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* slight pop so it doesn't look dead-flat */
+  filter: saturate(1.1);
+}
+
+
 .preview-video {
   position: absolute;
   inset: 0;
