@@ -66,7 +66,7 @@
                 <option value="lower-third">Lower Third – Player ID</option>
                 <option value="score-bug">Score Bug – Match Status</option>
                 <option value="matchup-bar">Matchup Bar – vs Graphic</option>
-                <option value="desk">Desk Panel – Hosts & Topic</option>
+                <option value="desk">Desk Panel – Hosts &amp; Topic</option>
                 <option value="coming-up">Coming Up – Segment Slate</option>
                 <option value="none">No Overlay</option>
               </select>
@@ -78,48 +78,83 @@
           </div>
         </section>
 
-        <!-- SCENES PANEL -->
+        <!-- SCENES -->
         <section class="panel">
           <div class="panel-header">
             <h2>Scenes</h2>
             <p class="panel-subtitle">
-              Save presets of <strong>video source + overlay + fields</strong>. Recall into Preview, then TAKE them live.
+              Save and recall your go-to combinations of camera, overlay, and text.
             </p>
           </div>
 
-          <div class="scenes-grid">
-            <div class="scene-slot" data-scene-index="0">
-              <div class="scene-buttons">
-                <button class="scene-load-btn" type="button">Scene 1</button>
-                <button class="scene-save-btn" type="button">Save</button>
+          <div class="scene-grid" id="sceneGrid">
+            <div class="scene-row" data-scene-index="0">
+              <div class="scene-main">
+                <div class="scene-title">Scene 1</div>
+                <input class="scene-name-input" type="text" placeholder="Label (optional)" />
+                <div class="scene-meta" data-scene-meta>
+                  Empty scene – Save to capture current preview.
+                </div>
               </div>
-              <div class="scene-meta">Empty</div>
+              <div class="scene-actions">
+                <button class="scene-btn" data-scene-action="recall" type="button">Load</button>
+                <button class="scene-btn" data-scene-action="save" type="button">Save</button>
+              </div>
             </div>
-            <div class="scene-slot" data-scene-index="1">
-              <div class="scene-buttons">
-                <button class="scene-load-btn" type="button">Scene 2</button>
-                <button class="scene-save-btn" type="button">Save</button>
+
+            <div class="scene-row" data-scene-index="1">
+              <div class="scene-main">
+                <div class="scene-title">Scene 2</div>
+                <input class="scene-name-input" type="text" placeholder="Label (optional)" />
+                <div class="scene-meta" data-scene-meta>
+                  Empty scene – Save to capture current preview.
+                </div>
               </div>
-              <div class="scene-meta">Empty</div>
+              <div class="scene-actions">
+                <button class="scene-btn" data-scene-action="recall" type="button">Load</button>
+                <button class="scene-btn" data-scene-action="save" type="button">Save</button>
+              </div>
             </div>
-            <div class="scene-slot" data-scene-index="2">
-              <div class="scene-buttons">
-                <button class="scene-load-btn" type="button">Scene 3</button>
-                <button class="scene-save-btn" type="button">Save</button>
+
+            <div class="scene-row" data-scene-index="2">
+              <div class="scene-main">
+                <div class="scene-title">Scene 3</div>
+                <input class="scene-name-input" type="text" placeholder="Label (optional)" />
+                <div class="scene-meta" data-scene-meta>
+                  Empty scene – Save to capture current preview.
+                </div>
               </div>
-              <div class="scene-meta">Empty</div>
+              <div class="scene-actions">
+                <button class="scene-btn" data-scene-action="recall" type="button">Load</button>
+                <button class="scene-btn" data-scene-action="save" type="button">Save</button>
+              </div>
             </div>
-            <div class="scene-slot" data-scene-index="3">
-              <div class="scene-buttons">
-                <button class="scene-load-btn" type="button">Scene 4</button>
-                <button class="scene-save-btn" type="button">Save</button>
+
+            <div class="scene-row" data-scene-index="3">
+              <div class="scene-main">
+                <div class="scene-title">Scene 4</div>
+                <input class="scene-name-input" type="text" placeholder="Label (optional)" />
+                <div class="scene-meta" data-scene-meta>
+                  Empty scene – Save to capture current preview.
+                </div>
               </div>
-              <div class="scene-meta">Empty</div>
+              <div class="scene-actions">
+                <button class="scene-btn" data-scene-action="recall" type="button">Load</button>
+                <button class="scene-btn" data-scene-action="save" type="button">Save</button>
+              </div>
             </div>
           </div>
 
           <p class="scene-hint">
-            Hotkeys: <strong>1–4</strong> load scenes into Preview, <strong>Shift+1–4</strong> save. <strong>Space</strong> = TAKE.
+            Hotkeys:
+            <strong>1–4</strong> load scenes ·
+            <strong>Space</strong> = TAKE ·
+            <strong>G</strong> = Graphics Mode ·
+            <strong>S</strong> = Safe Guides ·
+            <strong>T</strong> = Theme ·
+            <strong>F</strong> = Sample data ·
+            <strong>V</strong> = Next video source ·
+            <strong>O</strong> = Next overlay.
           </p>
         </section>
 
@@ -197,7 +232,7 @@
         <!-- DESK & SLATE CONTROLS -->
         <section class="panel">
           <div class="panel-header">
-            <h2>Desk & Slate Controls</h2>
+            <h2>Desk &amp; Slate Controls</h2>
             <p class="panel-subtitle">Use these for desk shots and “coming up” teases.</p>
           </div>
 
@@ -215,7 +250,7 @@
 
           <div class="field">
             <span class="field-label">Desk topic</span>
-            <input id="fieldTopic" type="text" placeholder="Day 2 singles pairings & storylines" />
+            <input id="fieldTopic" type="text" placeholder="Day 2 singles pairings &amp; storylines" />
           </div>
 
           <hr class="panel-divider" />
@@ -231,7 +266,7 @@
             </div>
             <div class="field">
               <span class="field-label">Coming up item 3</span>
-              <input id="fieldComing3" type="text" placeholder="Scoreboard check & standings" />
+              <input id="fieldComing3" type="text" placeholder="Scoreboard check &amp; standings" />
             </div>
           </div>
         </section>
@@ -240,7 +275,7 @@
         <section class="panel">
           <div class="panel-header">
             <h2>Brand Board</h2>
-            <p class="panel-subtitle">Keep your editor colors & typography consistent.</p>
+            <p class="panel-subtitle">Keep your editor colors &amp; typography consistent.</p>
           </div>
 
           <div class="swatch-grid">
@@ -292,9 +327,9 @@
       <section class="lab-column lab-column--right">
         <section class="panel panel--preview">
           <div class="panel-header">
-            <h2>Preview & Program</h2>
+            <h2>Preview &amp; Program</h2>
             <p class="panel-subtitle">
-              Left: tweak & line up shots. Right: on-air look. TAKE switches overlays + video source.
+              Left: tweak &amp; line up shots. Right: on-air look. TAKE switches overlays + video source.
             </p>
           </div>
 
@@ -463,8 +498,8 @@
                   </div>
                   <div class="desk-topic"
                        data-bind="topic" data-target="preview"
-                       data-default="Day 2 singles pairings & storylines">
-                    Day 2 singles pairings & storylines
+                       data-default="Day 2 singles pairings &amp; storylines">
+                    Day 2 singles pairings &amp; storylines
                   </div>
                 </div>
 
@@ -493,8 +528,8 @@
                     </div>
                     <div class="cu-item"
                          data-bind="coming3" data-target="preview"
-                         data-default="Scoreboard check & standings">
-                      Scoreboard check & standings
+                         data-default="Scoreboard check &amp; standings">
+                      Scoreboard check &amp; standings
                     </div>
                   </div>
                   <div class="cu-footer"
@@ -680,8 +715,8 @@
                   </div>
                   <div class="desk-topic"
                        data-bind="topic" data-target="live"
-                       data-default="Day 2 singles pairings & storylines">
-                    Day 2 singles pairings & storylines
+                       data-default="Day 2 singles pairings &amp; storylines">
+                    Day 2 singles pairings &amp; storylines
                   </div>
                 </div>
 
@@ -710,8 +745,8 @@
                     </div>
                     <div class="cu-item"
                          data-bind="coming3" data-target="live"
-                         data-default="Scoreboard check & standings">
-                      Scoreboard check & standings
+                         data-default="Scoreboard check &amp; standings">
+                      Scoreboard check &amp; standings
                     </div>
                   </div>
                   <div class="cu-footer"
@@ -725,8 +760,10 @@
           </div>
 
           <p class="preview-hint">
-            Workflow: choose video + overlay in <strong>Preview</strong>, then hit <strong>TAKE ⮕ LIVE</strong> (or press <strong>Space</strong>) to switch the <strong>Program</strong> with a subtle overlay wipe.
-            Use <strong>Scenes</strong> + number keys for fast presets. Use <strong>Graphics Mode</strong> + fullscreen for a clean program feed; use the ✕ button to exit.
+            Workflow: choose video + overlay in <strong>Preview</strong>, then hit
+            <strong>TAKE ⮕ LIVE</strong> (or press <strong>Space</strong>) to switch the
+            <strong>Program</strong> with a subtle overlay wipe. Use <strong>Graphics Mode</strong> + fullscreen
+            for a clean program feed; use the ✕ button to exit.
           </p>
         </section>
       </section>
