@@ -390,6 +390,47 @@ select:focus {
   border: 1px solid rgba(148, 163, 184, 0.55);
 }
 
+/* SWITCH / CUT FLASH */
+
+.switch-flash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.85) 26%,
+    rgba(245, 240, 230, 0.9) 50%,
+    rgba(255, 255, 255, 0.85) 74%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  transform: translateX(-120%) skewX(-10deg);
+}
+
+.switch-flash.is-on {
+  animation: switchWipe 260ms ease-out forwards;
+}
+
+@keyframes switchWipe {
+  0% {
+    opacity: 0;
+    transform: translateX(-120%) skewX(-10deg);
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0%) skewX(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(120%) skewX(10deg);
+  }
+}
+
 /* OVERLAYS BASE */
 
 .overlay {
