@@ -22,6 +22,7 @@
       <div class="topbar-actions">
         <button id="btnThemeToggle" class="ghost-btn" type="button">Toggle Dark Mode</button>
         <button id="btnFakeData" class="ghost-btn" type="button">Load Sample Data</button>
+        <button id="btnStartCam" class="ghost-btn" type="button">Start Camera Preview</button>
       </div>
     </header>
 
@@ -235,6 +236,9 @@
               </div>
               <div class="preview-frame">
                 <div class="preview-video">
+                  <!-- Camera feed (preview) -->
+                  <video id="previewCam" class="cam-feed" autoplay muted playsinline></video>
+
                   <div class="preview-gradient"></div>
                   <div class="preview-horizon"></div>
                   <div class="preview-label">Preview Feed</div>
@@ -434,6 +438,9 @@
               </div>
               <div class="preview-frame program-frame">
                 <div class="preview-video">
+                  <!-- Camera feed (live/program) -->
+                  <video id="liveCam" class="cam-feed" autoplay muted playsinline></video>
+
                   <div class="preview-gradient"></div>
                   <div class="preview-horizon"></div>
                   <div class="preview-label preview-label--live">Program Feed</div>
@@ -625,7 +632,7 @@
           </div>
 
           <p class="preview-hint">
-            Workflow: choose a layout, tweak content in <strong>Preview</strong>, then hit <strong>TAKE ⮕ LIVE</strong> to update the <strong>Program</strong> with a switcher flash.
+            Workflow: choose a layout, tweak content in <strong>Preview</strong>, then hit <strong>TAKE ⮕ LIVE</strong> to update the <strong>Program</strong> with a switcher flash. Use <strong>Start Camera Preview</strong> to see your actual camera under the overlays.
           </p>
         </section>
       </section>
