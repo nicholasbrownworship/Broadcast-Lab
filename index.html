@@ -32,12 +32,12 @@
         <section class="panel">
           <div class="panel-header">
             <h2>Overlay Presets</h2>
-            <p class="panel-subtitle">Choose a layout to preview and wireframe for your editor.</p>
+            <p class="panel-subtitle">Choose a layout to preview, then take it live.</p>
           </div>
 
           <div class="overlay-picker">
             <label class="field">
-              <span class="field-label">Overlay type</span>
+              <span class="field-label">Preview overlay type</span>
               <select id="overlaySelect">
                 <option value="lower-third">Lower Third – Player ID</option>
                 <option value="score-bug">Score Bug – Match Status</option>
@@ -57,7 +57,7 @@
         <section class="panel">
           <div class="panel-header">
             <h2>Content Controls</h2>
-            <p class="panel-subtitle">Type here and watch the graphics update in real time.</p>
+            <p class="panel-subtitle">Edits update the <strong>Preview</strong>. Hit TAKE to push them live.</p>
           </div>
 
           <div class="field-grid">
@@ -218,135 +218,414 @@
         </section>
       </section>
 
-      <!-- RIGHT COLUMN: PREVIEW AREA -->
+      <!-- RIGHT COLUMN: PREVIEW + PROGRAM -->
       <section class="lab-column lab-column--right">
         <section class="panel panel--preview">
           <div class="panel-header">
-            <h2>Live Preview</h2>
-            <p class="panel-subtitle">This simulates your video frame with the selected overlay on top.</p>
+            <h2>Preview & Program</h2>
+            <p class="panel-subtitle">Left: tweak & line up shots. Right: on-air look. Use TAKE to cut.</p>
           </div>
 
-          <div class="preview-frame">
-            <div class="preview-video">
-              <div class="preview-gradient"></div>
-              <div class="preview-horizon"></div>
-              <div class="preview-label">Camera Feed Placeholder</div>
+          <div class="preview-layout">
+            <!-- PREVIEW SCREEN -->
+            <div class="preview-column">
+              <div class="frame-label">
+                <span class="frame-label-title">Preview</span>
+                <span class="frame-label-tag">Safe sandbox</span>
+              </div>
+              <div class="preview-frame">
+                <div class="preview-video">
+                  <div class="preview-gradient"></div>
+                  <div class="preview-horizon"></div>
+                  <div class="preview-label">Preview Feed</div>
+                </div>
+
+                <!-- PREVIEW OVERLAYS -->
+                <!-- LOWER THIRD -->
+                <div class="overlay overlay--lower-third is-active"
+                     data-overlay="lower-third" data-screen="preview">
+                  <div class="lt-header">
+                    <span class="lt-tournament"
+                          data-bind="tournament" data-target="preview"
+                          data-default="Ozark Invitational">Ozark Invitational</span>
+                    <span class="lt-divider">•</span>
+                    <span class="lt-round"
+                          data-bind="round" data-target="preview"
+                          data-default="Day 1 — Best Ball">Day 1 — Best Ball</span>
+                  </div>
+                  <div class="lt-main">
+                    <div class="lt-name"
+                         data-bind="player1" data-target="preview"
+                         data-default="Nick Brown">Nick Brown</div>
+                    <div class="lt-meta">
+                      <span class="lt-team"
+                            data-bind="player1Team" data-target="preview"
+                            data-default="Team Ozark">Team Ozark</span>
+                      <span class="lt-pill"
+                            data-bind="segment" data-target="preview"
+                            data-default="Feature Group">Feature Group</span>
+                    </div>
+                  </div>
+                  <div class="lt-sponsor"
+                       data-bind="sponsor" data-target="preview"
+                       data-default="Presented by +3 Golf Co.">
+                    Presented by +3 Golf Co.
+                  </div>
+                </div>
+
+                <!-- SCORE BUG -->
+                <div class="overlay overlay--score-bug"
+                     data-overlay="score-bug" data-screen="preview">
+                  <div class="sb-topline">
+                    <span class="sb-tournament"
+                          data-bind="tournament" data-target="preview"
+                          data-default="Ozark Invitational">Ozark Invitational</span>
+                  </div>
+                  <div class="sb-main">
+                    <div class="sb-row">
+                      <span class="sb-label">Match</span>
+                      <span class="sb-value"
+                            data-bind="matchStatus" data-target="preview"
+                            data-default="1 Up — Ozark">1 Up — Ozark</span>
+                    </div>
+                    <div class="sb-row">
+                      <span class="sb-label"
+                            data-bind="player1" data-target="preview"
+                            data-default="Nick Brown">Nick Brown</span>
+                      <span class="sb-value"
+                            data-bind="player1Score" data-target="preview"
+                            data-default="-2 thru 7">-2 thru 7</span>
+                    </div>
+                    <div class="sb-row">
+                      <span class="sb-label"
+                            data-bind="player2" data-target="preview"
+                            data-default="Valley Player">Valley Player</span>
+                      <span class="sb-value"
+                            data-bind="player2Score" data-target="preview"
+                            data-default="+1 thru 7">+1 thru 7</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- MATCHUP BAR -->
+                <div class="overlay overlay--matchup-bar"
+                     data-overlay="matchup-bar" data-screen="preview">
+                  <div class="mb-meta">
+                    <span class="mb-round"
+                          data-bind="round" data-target="preview"
+                          data-default="Day 2 — Singles">Day 2 — Singles</span>
+                    <span class="mb-divider">•</span>
+                    <span class="mb-segment"
+                          data-bind="segment" data-target="preview"
+                          data-default="Featured Match">Featured Match</span>
+                  </div>
+                  <div class="mb-main">
+                    <div class="mb-side mb-side--left">
+                      <div class="mb-team-label"
+                           data-bind="player1Team" data-target="preview"
+                           data-default="Team Ozark">Team Ozark</div>
+                      <div class="mb-name"
+                           data-bind="player1" data-target="preview"
+                           data-default="Nick Brown">Nick Brown</div>
+                      <div class="mb-score"
+                           data-bind="player1Score" data-target="preview"
+                           data-default="2 Up">2 Up</div>
+                    </div>
+                    <div class="mb-vs">vs</div>
+                    <div class="mb-side mb-side--right">
+                      <div class="mb-team-label"
+                           data-bind="player2Team" data-target="preview"
+                           data-default="Team Valley">Team Valley</div>
+                      <div class="mb-name"
+                           data-bind="player2" data-target="preview"
+                           data-default="Valley Player">Valley Player</div>
+                      <div class="mb-score"
+                           data-bind="player2Score" data-target="preview"
+                           data-default="2 Down">2 Down</div>
+                    </div>
+                  </div>
+                  <div class="mb-sponsor"
+                       data-bind="sponsor" data-target="preview"
+                       data-default="Presented by +3 Golf Co.">
+                    Presented by +3 Golf Co.
+                  </div>
+                </div>
+
+                <!-- DESK PANEL -->
+                <div class="overlay overlay--desk"
+                     data-overlay="desk" data-screen="preview">
+                  <div class="desk-meta">
+                    <span class="desk-tournament"
+                          data-bind="tournament" data-target="preview"
+                          data-default="Ozark Invitational">Ozark Invitational</span>
+                    <span class="desk-dot">•</span>
+                    <span class="desk-round"
+                          data-bind="round" data-target="preview"
+                          data-default="Day 2 — Studio Show">Day 2 — Studio Show</span>
+                  </div>
+                  <div class="desk-main">
+                    <div class="desk-host">
+                      <div class="desk-label">Host</div>
+                      <div class="desk-name"
+                           data-bind="host1" data-target="preview"
+                           data-default="Host Name">Host Name</div>
+                    </div>
+                    <div class="desk-spine"></div>
+                    <div class="desk-host">
+                      <div class="desk-label">Co-Host</div>
+                      <div class="desk-name"
+                           data-bind="host2" data-target="preview"
+                           data-default="Co-Host Name">Co-Host Name</div>
+                    </div>
+                  </div>
+                  <div class="desk-topic"
+                       data-bind="topic" data-target="preview"
+                       data-default="Day 2 singles pairings & storylines">
+                    Day 2 singles pairings & storylines
+                  </div>
+                </div>
+
+                <!-- COMING UP SLATE -->
+                <div class="overlay overlay--coming-up"
+                     data-overlay="coming-up" data-screen="preview">
+                  <div class="cu-header">
+                    <span class="cu-label">Coming Up</span>
+                    <span class="cu-divider"></span>
+                    <span class="cu-round"
+                          data-bind="round" data-target="preview"
+                          data-default="Day 1 — Best Ball">Day 1 — Best Ball</span>
+                  </div>
+                  <div class="cu-body">
+                    <div class="cu-item"
+                         data-bind="coming1" data-target="preview"
+                         data-default="Feature Group on 7 tee">
+                      Feature Group on 7 tee
+                    </div>
+                    <div class="cu-item"
+                         data-bind="coming2" data-target="preview"
+                         data-default="Mic’d Up: Cart Cam Highlights">
+                      Mic’d Up: Cart Cam Highlights
+                    </div>
+                    <div class="cu-item"
+                         data-bind="coming3" data-target="preview"
+                         data-default="Scoreboard check & standings">
+                      Scoreboard check & standings
+                    </div>
+                  </div>
+                  <div class="cu-footer"
+                       data-bind="sponsor" data-target="preview"
+                       data-default="Presented by +3 Golf Co.">
+                    Presented by +3 Golf Co.
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <!-- SWITCH FLASH LAYER -->
-            <div class="switch-flash"></div>
+            <!-- PROGRAM (LIVE) SCREEN -->
+            <div class="preview-column">
+              <div class="frame-label frame-label--program">
+                <div>
+                  <span class="frame-label-title">Program</span>
+                  <span class="frame-label-tag frame-label-tag--live">On Air</span>
+                </div>
+                <button id="btnTakeLive" class="take-btn" type="button">
+                  TAKE ⮕ LIVE
+                </button>
+              </div>
+              <div class="preview-frame program-frame">
+                <div class="preview-video">
+                  <div class="preview-gradient"></div>
+                  <div class="preview-horizon"></div>
+                  <div class="preview-label preview-label--live">Program Feed</div>
+                </div>
 
-            <!-- OVERLAYS -->
-            <!-- LOWER THIRD -->
-            <div class="overlay overlay--lower-third is-active" data-overlay="lower-third">
-              <div class="lt-header">
-                <span class="lt-tournament" data-bind="tournament" data-default="Ozark Invitational">Ozark Invitational</span>
-                <span class="lt-divider">•</span>
-                <span class="lt-round" data-bind="round" data-default="Day 1 — Best Ball">Day 1 — Best Ball</span>
-              </div>
-              <div class="lt-main">
-                <div class="lt-name" data-bind="player1" data-default="Nick Brown">Nick Brown</div>
-                <div class="lt-meta">
-                  <span class="lt-team" data-bind="player1Team" data-default="Team Ozark">Team Ozark</span>
-                  <span class="lt-pill" data-bind="segment" data-default="Feature Group">Feature Group</span>
-                </div>
-              </div>
-              <div class="lt-sponsor" data-bind="sponsor" data-default="Presented by +3 Golf Co.">Presented by +3 Golf Co.</div>
-            </div>
+                <!-- SWITCH FLASH LAYER (LIVE ONLY) -->
+                <div class="switch-flash" id="programSwitchFlash"></div>
 
-            <!-- SCORE BUG -->
-            <div class="overlay overlay--score-bug" data-overlay="score-bug">
-              <div class="sb-topline">
-                <span class="sb-tournament" data-bind="tournament" data-default="Ozark Invitational">Ozark Invitational</span>
-              </div>
-              <div class="sb-main">
-                <div class="sb-row">
-                  <span class="sb-label">Match</span>
-                  <span class="sb-value" data-bind="matchStatus" data-default="1 Up — Ozark">1 Up — Ozark</span>
+                <!-- PROGRAM OVERLAYS -->
+                <!-- LOWER THIRD -->
+                <div class="overlay overlay--lower-third is-active"
+                     data-overlay="lower-third" data-screen="live">
+                  <div class="lt-header">
+                    <span class="lt-tournament"
+                          data-bind="tournament" data-target="live"
+                          data-default="Ozark Invitational">Ozark Invitational</span>
+                    <span class="lt-divider">•</span>
+                    <span class="lt-round"
+                          data-bind="round" data-target="live"
+                          data-default="Day 1 — Best Ball">Day 1 — Best Ball</span>
+                  </div>
+                  <div class="lt-main">
+                    <div class="lt-name"
+                         data-bind="player1" data-target="live"
+                         data-default="Nick Brown">Nick Brown</div>
+                    <div class="lt-meta">
+                      <span class="lt-team"
+                            data-bind="player1Team" data-target="live"
+                            data-default="Team Ozark">Team Ozark</span>
+                      <span class="lt-pill"
+                            data-bind="segment" data-target="live"
+                            data-default="Feature Group">Feature Group</span>
+                    </div>
+                  </div>
+                  <div class="lt-sponsor"
+                       data-bind="sponsor" data-target="live"
+                       data-default="Presented by +3 Golf Co.">
+                    Presented by +3 Golf Co.
+                  </div>
                 </div>
-                <div class="sb-row">
-                  <span class="sb-label" data-bind="player1" data-default="Nick Brown">Nick Brown</span>
-                  <span class="sb-value" data-bind="player1Score" data-default="-2 thru 7">-2 thru 7</span>
-                </div>
-                <div class="sb-row">
-                  <span class="sb-label" data-bind="player2" data-default="Valley Player">Valley Player</span>
-                  <span class="sb-value" data-bind="player2Score" data-default="+1 thru 7">+1 thru 7</span>
-                </div>
-              </div>
-            </div>
 
-            <!-- MATCHUP BAR -->
-            <div class="overlay overlay--matchup-bar" data-overlay="matchup-bar">
-              <div class="mb-meta">
-                <span class="mb-round" data-bind="round" data-default="Day 2 — Singles">Day 2 — Singles</span>
-                <span class="mb-divider">•</span>
-                <span class="mb-segment" data-bind="segment" data-default="Featured Match">Featured Match</span>
-              </div>
-              <div class="mb-main">
-                <div class="mb-side mb-side--left">
-                  <div class="mb-team-label" data-bind="player1Team" data-default="Team Ozark">Team Ozark</div>
-                  <div class="mb-name" data-bind="player1" data-default="Nick Brown">Nick Brown</div>
-                  <div class="mb-score" data-bind="player1Score" data-default="2 Up">2 Up</div>
+                <!-- SCORE BUG -->
+                <div class="overlay overlay--score-bug"
+                     data-overlay="score-bug" data-screen="live">
+                  <div class="sb-topline">
+                    <span class="sb-tournament"
+                          data-bind="tournament" data-target="live"
+                          data-default="Ozark Invitational">Ozark Invitational</span>
+                  </div>
+                  <div class="sb-main">
+                    <div class="sb-row">
+                      <span class="sb-label">Match</span>
+                      <span class="sb-value"
+                            data-bind="matchStatus" data-target="live"
+                            data-default="1 Up — Ozark">1 Up — Ozark</span>
+                    </div>
+                    <div class="sb-row">
+                      <span class="sb-label"
+                            data-bind="player1" data-target="live"
+                            data-default="Nick Brown">Nick Brown</span>
+                      <span class="sb-value"
+                            data-bind="player1Score" data-target="live"
+                            data-default="-2 thru 7">-2 thru 7</span>
+                    </div>
+                    <div class="sb-row">
+                      <span class="sb-label"
+                            data-bind="player2" data-target="live"
+                            data-default="Valley Player">Valley Player</span>
+                      <span class="sb-value"
+                            data-bind="player2Score" data-target="live"
+                            data-default="+1 thru 7">+1 thru 7</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="mb-vs">vs</div>
-                <div class="mb-side mb-side--right">
-                  <div class="mb-team-label" data-bind="player2Team" data-default="Team Valley">Team Valley</div>
-                  <div class="mb-name" data-bind="player2" data-default="Valley Player">Valley Player</div>
-                  <div class="mb-score" data-bind="player2Score" data-default="2 Down">2 Down</div>
-                </div>
-              </div>
-              <div class="mb-sponsor" data-bind="sponsor" data-default="Presented by +3 Golf Co.">Presented by +3 Golf Co.</div>
-            </div>
 
-            <!-- DESK PANEL -->
-            <div class="overlay overlay--desk" data-overlay="desk">
-              <div class="desk-meta">
-                <span class="desk-tournament" data-bind="tournament" data-default="Ozark Invitational">Ozark Invitational</span>
-                <span class="desk-dot">•</span>
-                <span class="desk-round" data-bind="round" data-default="Day 2 — Studio Show">Day 2 — Studio Show</span>
-              </div>
-              <div class="desk-main">
-                <div class="desk-host">
-                  <div class="desk-label">Host</div>
-                  <div class="desk-name" data-bind="host1" data-default="Host Name">Host Name</div>
+                <!-- MATCHUP BAR -->
+                <div class="overlay overlay--matchup-bar"
+                     data-overlay="matchup-bar" data-screen="live">
+                  <div class="mb-meta">
+                    <span class="mb-round"
+                          data-bind="round" data-target="live"
+                          data-default="Day 2 — Singles">Day 2 — Singles</span>
+                    <span class="mb-divider">•</span>
+                    <span class="mb-segment"
+                          data-bind="segment" data-target="live"
+                          data-default="Featured Match">Featured Match</span>
+                  </div>
+                  <div class="mb-main">
+                    <div class="mb-side mb-side--left">
+                      <div class="mb-team-label"
+                           data-bind="player1Team" data-target="live"
+                           data-default="Team Ozark">Team Ozark</div>
+                      <div class="mb-name"
+                           data-bind="player1" data-target="live"
+                           data-default="Nick Brown">Nick Brown</div>
+                      <div class="mb-score"
+                           data-bind="player1Score" data-target="live"
+                           data-default="2 Up">2 Up</div>
+                    </div>
+                    <div class="mb-vs">vs</div>
+                    <div class="mb-side mb-side--right">
+                      <div class="mb-team-label"
+                           data-bind="player2Team" data-target="live"
+                           data-default="Team Valley">Team Valley</div>
+                      <div class="mb-name"
+                           data-bind="player2" data-target="live"
+                           data-default="Valley Player">Valley Player</div>
+                      <div class="mb-score"
+                           data-bind="player2Score" data-target="live"
+                           data-default="2 Down">2 Down</div>
+                    </div>
+                  </div>
+                  <div class="mb-sponsor"
+                       data-bind="sponsor" data-target="live"
+                       data-default="Presented by +3 Golf Co.">
+                    Presented by +3 Golf Co.
+                  </div>
                 </div>
-                <div class="desk-spine"></div>
-                <div class="desk-host">
-                  <div class="desk-label">Co-Host</div>
-                  <div class="desk-name" data-bind="host2" data-default="Co-Host Name">Co-Host Name</div>
-                </div>
-              </div>
-              <div class="desk-topic" data-bind="topic" data-default="Day 2 singles pairings & storylines">
-                Day 2 singles pairings & storylines
-              </div>
-            </div>
 
-            <!-- COMING UP SLATE -->
-            <div class="overlay overlay--coming-up" data-overlay="coming-up">
-              <div class="cu-header">
-                <span class="cu-label">Coming Up</span>
-                <span class="cu-divider"></span>
-                <span class="cu-round" data-bind="round" data-default="Day 1 — Best Ball">Day 1 — Best Ball</span>
-              </div>
-              <div class="cu-body">
-                <div class="cu-item" data-bind="coming1" data-default="Feature Group on 7 tee">
-                  Feature Group on 7 tee
+                <!-- DESK PANEL -->
+                <div class="overlay overlay--desk"
+                     data-overlay="desk" data-screen="live">
+                  <div class="desk-meta">
+                    <span class="desk-tournament"
+                          data-bind="tournament" data-target="live"
+                          data-default="Ozark Invitational">Ozark Invitational</span>
+                    <span class="desk-dot">•</span>
+                    <span class="desk-round"
+                          data-bind="round" data-target="live"
+                          data-default="Day 2 — Studio Show">Day 2 — Studio Show</span>
+                  </div>
+                  <div class="desk-main">
+                    <div class="desk-host">
+                      <div class="desk-label">Host</div>
+                      <div class="desk-name"
+                           data-bind="host1" data-target="live"
+                           data-default="Host Name">Host Name</div>
+                    </div>
+                    <div class="desk-spine"></div>
+                    <div class="desk-host">
+                      <div class="desk-label">Co-Host</div>
+                      <div class="desk-name"
+                           data-bind="host2" data-target="live"
+                           data-default="Co-Host Name">Co-Host Name</div>
+                    </div>
+                  </div>
+                  <div class="desk-topic"
+                       data-bind="topic" data-target="live"
+                       data-default="Day 2 singles pairings & storylines">
+                    Day 2 singles pairings & storylines
+                  </div>
                 </div>
-                <div class="cu-item" data-bind="coming2" data-default="Mic’d Up: Cart Cam Highlights">
-                  Mic’d Up: Cart Cam Highlights
+
+                <!-- COMING UP SLATE -->
+                <div class="overlay overlay--coming-up"
+                     data-overlay="coming-up" data-screen="live">
+                  <div class="cu-header">
+                    <span class="cu-label">Coming Up</span>
+                    <span class="cu-divider"></span>
+                    <span class="cu-round"
+                          data-bind="round" data-target="live"
+                          data-default="Day 1 — Best Ball">Day 1 — Best Ball</span>
+                  </div>
+                  <div class="cu-body">
+                    <div class="cu-item"
+                         data-bind="coming1" data-target="live"
+                         data-default="Feature Group on 7 tee">
+                      Feature Group on 7 tee
+                    </div>
+                    <div class="cu-item"
+                         data-bind="coming2" data-target="live"
+                         data-default="Mic’d Up: Cart Cam Highlights">
+                      Mic’d Up: Cart Cam Highlights
+                    </div>
+                    <div class="cu-item"
+                         data-bind="coming3" data-target="live"
+                         data-default="Scoreboard check & standings">
+                      Scoreboard check & standings
+                    </div>
+                  </div>
+                  <div class="cu-footer"
+                       data-bind="sponsor" data-target="live"
+                       data-default="Presented by +3 Golf Co.">
+                    Presented by +3 Golf Co.
+                  </div>
                 </div>
-                <div class="cu-item" data-bind="coming3" data-default="Scoreboard check & standings">
-                  Scoreboard check & standings
-                </div>
-              </div>
-              <div class="cu-footer" data-bind="sponsor" data-default="Presented by +3 Golf Co.">
-                Presented by +3 Golf Co.
               </div>
             </div>
           </div>
 
           <p class="preview-hint">
-            Tip: use this as a wireframe when building overlays in Premiere, DaVinci, or OBS. Match paddings, colors, and positions.
+            Workflow: choose a layout, tweak content in <strong>Preview</strong>, then hit <strong>TAKE ⮕ LIVE</strong> to update the <strong>Program</strong> with a switcher flash.
           </p>
         </section>
       </section>
@@ -355,7 +634,7 @@
     <footer class="lab-footer">
       <span>Ozark Invitational Broadcast Lab</span>
       <span class="dot">&middot;</span>
-      <span>Static prototype – customize freely</span>
+      <span>Preview / Program prototype – customize freely</span>
     </footer>
   </div>
 </body>
