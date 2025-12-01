@@ -118,6 +118,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .ghost-btn {
@@ -136,7 +137,7 @@ body {
 }
 
 body.theme-light .ghost-btn {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.88);
   color: #111827;
   border-color: rgba(148, 163, 184, 0.4);
 }
@@ -149,7 +150,7 @@ body.theme-light .ghost-btn {
 
 /* 
    MAIN LAYOUT
-   - Now vertical: Preview/Program panel spans full width at the top.
+   - Vertical: Preview/Program panel spans full width at the top.
    - Control panels stack underneath.
 */
 
@@ -166,7 +167,7 @@ body.theme-light .ghost-btn {
   gap: 12px;
 }
 
-/* Put the preview/program column (right) ABOVE the controls (left) */
+/* Put the preview/program column ABOVE the controls */
 .lab-column--right {
   order: -1;
 }
@@ -239,7 +240,7 @@ select {
 
 body.theme-light input,
 body.theme-light select {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.96);
   color: #111827;
 }
 
@@ -435,17 +436,6 @@ select:focus {
   aspect-ratio: 16 / 9;
 }
 
-.cam-feed {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* slight pop so it doesn't look dead-flat */
-  filter: saturate(1.1);
-}
-
-
 .preview-video {
   position: absolute;
   inset: 0;
@@ -453,6 +443,16 @@ select:focus {
     radial-gradient(circle at 15% 0%, rgba(209, 161, 75, 0.35), transparent 60%),
     radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.25), transparent 60%),
     linear-gradient(180deg, #020617 0%, #020617 38%, #064e3b 100%);
+}
+
+/* Camera feed */
+.cam-feed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.1);
 }
 
 .preview-gradient {
@@ -546,15 +546,15 @@ select:focus {
   transform: translateY(0);
 }
 
-/* LOWER THIRD */
+/* LOWER THIRD — COMPACT */
 
 .overlay--lower-third {
   left: 4%;
-  right: 35%;
-  bottom: 7%;
+  right: 42%;
+  bottom: 5%;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .lt-header {
@@ -564,7 +564,7 @@ select:focus {
     rgba(15, 23, 42, 0.9)
   );
   border-radius: 99px;
-  padding: 4px 10px;
+  padding: 3px 8px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -572,7 +572,7 @@ select:focus {
 }
 
 .lt-header span {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
 }
 
 .lt-tournament {
@@ -590,7 +590,7 @@ select:focus {
 }
 
 .lt-main {
-  padding: 7px 11px;
+  padding: 5px 9px;
   border-radius: 12px;
   background: linear-gradient(
     120deg,
@@ -602,40 +602,40 @@ select:focus {
 }
 
 .lt-name {
-  font-size: 1.05rem;
+  font-size: 0.9rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
 }
 
 .lt-meta {
-  margin-top: 2px;
+  margin-top: 1px;
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.75rem;
+  gap: 4px;
+  font-size: 0.7rem;
 }
 
 .lt-team {
-  padding: 2px 7px;
+  padding: 1px 6px;
   border-radius: 999px;
   background: rgba(36, 79, 60, 0.7);
   border: 1px solid rgba(34, 197, 94, 0.4);
 }
 
 .lt-pill {
-  padding: 2px 7px;
+  padding: 1px 6px;
   border-radius: 999px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   background: rgba(209, 161, 75, 0.92);
   color: #111827;
 }
 
 .lt-sponsor {
-  margin-top: 2px;
-  font-size: 0.7rem;
+  margin-top: 1px;
+  font-size: 0.65rem;
   color: rgba(226, 232, 240, 0.8);
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
 }
@@ -953,6 +953,79 @@ select:focus {
   opacity: 0.8;
 }
 
+/* === TITLE / ACTION SAFE GUIDES === */
+
+body.show-safe-guides .preview-frame::before,
+body.show-safe-guides .preview-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+body.show-safe-guides .preview-frame::before {
+  border: 2px solid rgba(250, 250, 250, 0.35); /* title safe */
+  transform: scale(0.9, 0.9);
+}
+
+body.show-safe-guides .preview-frame::after {
+  border: 1px dashed rgba(250, 250, 250, 0.3); /* action safe */
+  transform: scale(0.8, 0.8);
+}
+
+/* === GRAPHICS-ONLY PROGRAM MODE === */
+
+body.graphics-mode {
+  background: #000;
+}
+
+body.graphics-mode .lab-topbar,
+body.graphics-mode .lab-column--left,
+body.graphics-mode .preview-hint,
+body.graphics-mode .lab-footer {
+  display: none !important;
+}
+
+body.graphics-mode .lab-shell {
+  max-width: none;
+  padding: 0;
+}
+
+body.graphics-mode .lab-main {
+  flex: 1;
+  margin: 0;
+}
+
+body.graphics-mode .lab-column--right {
+  order: 0;
+}
+
+body.graphics-mode .panel--preview {
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Only show Program column in graphics mode */
+body.graphics-mode .preview-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+body.graphics-mode .preview-column:first-child {
+  display: none;
+}
+
+body.graphics-mode .preview-column {
+  height: 100vh;
+}
+
+body.graphics-mode .preview-frame {
+  border-radius: 0;
+  aspect-ratio: auto;
+  height: 100%;
+}
+
 /* RESPONSIVE */
 
 @media (max-width: 880px) {
@@ -960,12 +1033,6 @@ select:focus {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-  }
-
-  .topbar-actions {
-    align-self: stretch;
-    justify-content: flex-start;
-    flex-wrap: wrap;
   }
 
   .preview-layout {
@@ -997,53 +1064,3 @@ select:focus {
     right: 8%;
   }
 }
-
-/* === COMPACT LOWER THIRD – OVERRIDES === */
-
-.overlay--lower-third {
-  left: 4%;
-  right: 42%;      /* was ~35% – narrower bar */
-  bottom: 5%;      /* a bit lower, closer to the edge */
-  gap: 3px;        /* tighter spacing between header / main / sponsor */
-}
-
-/* Header pill a bit smaller */
-.lt-header {
-  padding: 3px 8px;          /* was 4px 10px */
-}
-
-.lt-header span {
-  font-size: 0.65rem;        /* was 0.7rem */
-}
-
-/* Main block more compact */
-.lt-main {
-  padding: 5px 9px;          /* was 7px 11px */
-}
-
-.lt-name {
-  font-size: 0.9rem;         /* was 1.05rem */
-  letter-spacing: 0.1em;     /* slightly tighter */
-}
-
-.lt-meta {
-  margin-top: 1px;
-  font-size: 0.7rem;         /* was 0.75rem */
-  gap: 4px;                  /* was 6px */
-}
-
-.lt-team {
-  padding: 1px 6px;          /* smaller pill */
-}
-
-.lt-pill {
-  padding: 1px 6px;
-  font-size: 0.65rem;        /* was 0.68rem */
-}
-
-/* Sponsor line smaller + tighter */
-.lt-sponsor {
-  margin-top: 1px;
-  font-size: 0.65rem;        /* was 0.7rem */
-}
-
