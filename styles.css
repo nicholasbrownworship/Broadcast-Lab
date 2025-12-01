@@ -506,47 +506,6 @@ select:focus {
   border-color: rgba(248, 113, 113, 0.9);
 }
 
-/* SWITCH / CUT FLASH (LIVE ONLY) */
-
-.switch-flash {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.85) 26%,
-    rgba(245, 240, 230, 0.9) 50%,
-    rgba(255, 255, 255, 0.85) 74%,
-    transparent 100%
-  );
-  mix-blend-mode: screen;
-  transform: translateX(-120%) skewX(-10deg);
-}
-
-.switch-flash.is-on {
-  animation: switchWipe 260ms ease-out forwards;
-}
-
-@keyframes switchWipe {
-  0% {
-    opacity: 0;
-    transform: translateX(-120%) skewX(-10deg);
-  }
-  15% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 1;
-    transform: translateX(0%) skewX(0deg);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(120%) skewX(10deg);
-  }
-}
-
 /* EXIT GRAPHICS MODE BUTTON */
 
 .graphics-exit-btn {
@@ -590,6 +549,48 @@ body.graphics-mode .graphics-exit-btn {
 .overlay.is-active {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* PER-OVERLAY SWITCH FLASH */
+
+.overlay-switch-flash {
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.85) 33%,
+    rgba(245, 240, 230, 0.9) 50%,
+    rgba(255, 255, 255, 0.85) 67%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  transform: translateX(-120%) skewX(-10deg);
+  z-index: -1; /* sits just behind overlay content but within its box */
+}
+
+.overlay-switch-flash.is-on {
+  animation: overlaySwitchWipe 260ms ease-out forwards;
+}
+
+@keyframes overlaySwitchWipe {
+  0% {
+    opacity: 0;
+    transform: translateX(-120%) skewX(-10deg);
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0%) skewX(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(120%) skewX(10deg);
+  }
 }
 
 /* LOWER THIRD — COMPACT */
