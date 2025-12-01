@@ -11,7 +11,6 @@
   const overlaySelect = $("#overlaySelect");
   const overlayNotes = $("#overlayNotes");
   const videoSourceSelect = $("#videoSourceSelect");
-  const switchFlash = $("#programSwitchFlash");
   const btnThemeToggle = $("#btnThemeToggle");
   const btnFakeData = $("#btnFakeData");
   const btnTakeLive = $("#btnTakeLive");
@@ -47,7 +46,8 @@
     desk:
       "Desk panel: use when hosts are on camera at the desk, introducing topics or breaking down the round.",
     "coming-up":
-      "Coming up slate: use over B-roll or wide shots when teasing the next few segments."
+      "Coming up slate: use over B-roll or wide shots when teasing the next few segments.",
+    none: "No overlay: clean feed for replays, drone shots, or scoreboard-only looks."
   };
 
   // === CAMERA PREVIEW ===
@@ -149,42 +149,50 @@
   // === OVERLAY SWITCHING ===
 
   function setOverlayImmediate(type, screen) {
-    // screen: "preview" or "live"
-    $all('.overlay[data-screen="' + screen + '"]').forEach((el) => {
-      if (el.dataset.overlay === type) {
-        el.classList.add("is-active");
-      } else {
-        el.classList.remove("is-active");
-      }
-    });
+    const overlays = $all('.overlay[data-screen="' + screen + '"]');
+
+    if (type === "none") {
+      overlays.forEach((el) => el.classList.remove("is-active"));
+    } else {
+      overlays.forEach((el) => {
+        if (el.dataset.overlay === type) {
+          el.classList.add("is-active");
+        } else {
+          el.classList.remove("is-active");
+        }
+      });
+    }
 
     if (screen === "preview" && overlayNotes) {
       overlayNotes.textContent = overlayHelp[type] || "";
     }
   }
 
-  function triggerSwitchFx(callback) {
-    if (!switchFlash) {
-      if (typeof callback === "function") callback();
-      return;
-    }
+  function triggerOverlayFlash(overlayEl) {
+    if (!overlayEl) return;
+    const flash = overlayEl.querySelector(".overlay-switch-flash");
+    if (!flash) return;
 
-    switchFlash.classList.remove("is-on");
-    void switchFlash.offsetWidth; // reflow
-    switchFlash.classList.add("is-on");
-
-    setTimeout(() => {
-      if (typeof callback === "function") callback();
-    }, 120);
+    flash.classList.remove("is-on");
+    // Force reflow to restart animation
+    void flash.offsetWidth;
+    flash.classList.add("is-on");
   }
 
   function changeOverlay(type, screen, animate = true) {
-    if (screen === "live" && animate) {
-      triggerSwitchFx(() => setOverlayImmediate(type, "live"));
+    if (screen === "live") {
+      setOverlayImmediate(type, "live");
       currentLiveOverlay = type;
+
+      if (animate && type !== "none") {
+        const overlayEl = document.querySelector(
+          '.overlay[data-screen="live"][data-overlay="' + type + '"]'
+        );
+        triggerOverlayFlash(overlayEl);
+      }
     } else {
-      setOverlayImmediate(type, screen);
-      if (screen === "preview") currentPreviewOverlay = type;
+      setOverlayImmediate(type, "preview");
+      currentPreviewOverlay = type;
     }
   }
 
@@ -194,10 +202,16 @@
       changeOverlay(val, "preview", false);
     });
 
-    // Initial state
+    // Initial state (keep lower third selected initially)
     const initial = overlaySelect.value || "lower-third";
-    changeOverlay(initial, "preview", false);
-    changeOverlay(initial, "live", false);
+    if (initial === "none") {
+      // Force to lower-third by default
+      changeOverlay("lower-third", "preview", false);
+      changeOverlay("lower-third", "live", false);
+    } else {
+      changeOverlay(initial, "preview", false);
+      changeOverlay(initial, "live", false);
+    }
   }
 
   // === DATA BINDINGS ===
@@ -343,15 +357,15 @@
       updateBoundElements(bindKey, val, "live");
     });
 
-    // 2) Switch the overlay type on the live/program frame with flash
+    // 2) Switch overlay + video source on the live/program frame
     const newOverlay = currentPreviewOverlay;
     const newVideoSource = currentPreviewVideo;
 
-    // Video source first (so flash covers the cut)
+    // Video source first, so overlay wipe rides on top of the final view
     currentLiveVideo = newVideoSource;
     setVideoSource(programFrame, currentLiveVideo);
 
-    // Overlay cut with flash
+    // Overlay cut with subtle overlay-only flash
     changeOverlay(newOverlay, "live", true);
   }
 
