@@ -42,6 +42,8 @@
                 <option value="lower-third">Lower Third – Player ID</option>
                 <option value="score-bug">Score Bug – Match Status</option>
                 <option value="matchup-bar">Matchup Bar – vs Graphic</option>
+                <option value="desk">Desk Panel – Hosts & Topic</option>
+                <option value="coming-up">Coming Up – Segment Slate</option>
               </select>
             </label>
 
@@ -51,7 +53,7 @@
           </div>
         </section>
 
-        <!-- SECTION: TEXT FIELDS -->
+        <!-- SECTION: TEXT FIELDS (CORE CONTENT) -->
         <section class="panel">
           <div class="panel-header">
             <h2>Content Controls</h2>
@@ -118,6 +120,48 @@
             <div class="field">
               <span class="field-label">Player 2 score / status</span>
               <input id="fieldPlayer2Score" type="text" placeholder="+1 thru 7" />
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION: DESK & SLATE CONTROLS -->
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Desk & Slate Controls</h2>
+            <p class="panel-subtitle">Use these for desk shots and “coming up” teases.</p>
+          </div>
+
+          <div class="field-grid field-grid--two">
+            <div class="field">
+              <span class="field-label">Host 1 name</span>
+              <input id="fieldHost1" type="text" placeholder="Host Name" />
+            </div>
+
+            <div class="field">
+              <span class="field-label">Host 2 name</span>
+              <input id="fieldHost2" type="text" placeholder="Co-Host Name" />
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Desk topic</span>
+            <input id="fieldTopic" type="text" placeholder="Day 2 singles pairings & storylines" />
+          </div>
+
+          <hr class="panel-divider" />
+
+          <div class="field-grid">
+            <div class="field">
+              <span class="field-label">Coming up item 1</span>
+              <input id="fieldComing1" type="text" placeholder="Feature Group on 7 tee" />
+            </div>
+            <div class="field">
+              <span class="field-label">Coming up item 2</span>
+              <input id="fieldComing2" type="text" placeholder="Mic’d Up: Cart Cam Highlights" />
+            </div>
+            <div class="field">
+              <span class="field-label">Coming up item 3</span>
+              <input id="fieldComing3" type="text" placeholder="Scoreboard check & standings" />
             </div>
           </div>
         </section>
@@ -249,6 +293,52 @@
                 </div>
               </div>
               <div class="mb-sponsor" data-bind="sponsor" data-default="Presented by +3 Golf Co.">Presented by +3 Golf Co.</div>
+            </div>
+
+            <!-- DESK PANEL -->
+            <div class="overlay overlay--desk" data-overlay="desk">
+              <div class="desk-meta">
+                <span class="desk-tournament" data-bind="tournament" data-default="Ozark Invitational">Ozark Invitational</span>
+                <span class="desk-dot">•</span>
+                <span class="desk-round" data-bind="round" data-default="Day 2 — Studio Show">Day 2 — Studio Show</span>
+              </div>
+              <div class="desk-main">
+                <div class="desk-host">
+                  <div class="desk-label">Host</div>
+                  <div class="desk-name" data-bind="host1" data-default="Host Name">Host Name</div>
+                </div>
+                <div class="desk-spine"></div>
+                <div class="desk-host">
+                  <div class="desk-label">Co-Host</div>
+                  <div class="desk-name" data-bind="host2" data-default="Co-Host Name">Co-Host Name</div>
+                </div>
+              </div>
+              <div class="desk-topic" data-bind="topic" data-default="Day 2 singles pairings & storylines">
+                Day 2 singles pairings & storylines
+              </div>
+            </div>
+
+            <!-- COMING UP SLATE -->
+            <div class="overlay overlay--coming-up" data-overlay="coming-up">
+              <div class="cu-header">
+                <span class="cu-label">Coming Up</span>
+                <span class="cu-divider"></span>
+                <span class="cu-round" data-bind="round" data-default="Day 1 — Best Ball">Day 1 — Best Ball</span>
+              </div>
+              <div class="cu-body">
+                <div class="cu-item" data-bind="coming1" data-default="Feature Group on 7 tee">
+                  Feature Group on 7 tee
+                </div>
+                <div class="cu-item" data-bind="coming2" data-default="Mic’d Up: Cart Cam Highlights">
+                  Mic’d Up: Cart Cam Highlights
+                </div>
+                <div class="cu-item" data-bind="coming3" data-default="Scoreboard check & standings">
+                  Scoreboard check & standings
+                </div>
+              </div>
+              <div class="cu-footer" data-bind="sponsor" data-default="Presented by +3 Golf Co.">
+                Presented by +3 Golf Co.
+              </div>
             </div>
           </div>
 
