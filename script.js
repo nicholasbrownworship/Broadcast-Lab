@@ -1,4 +1,4 @@
-// Broadcast Lab – Preview / Program with switcher-style transitions
+// Broadcast Lab – Preview / Program with switcher-style transitions + camera preview
 (function () {
   function $(selector) {
     return document.querySelector(selector);
@@ -14,6 +14,11 @@
   const btnThemeToggle = $("#btnThemeToggle");
   const btnFakeData = $("#btnFakeData");
   const btnTakeLive = $("#btnTakeLive");
+  const btnStartCam = $("#btnStartCam");
+  const previewCam = $("#previewCam");
+  const liveCam = $("#liveCam");
+
+  let camStream = null;
 
   // Track current overlay types
   let currentPreviewOverlay = "lower-third";
@@ -32,6 +37,51 @@
     "coming-up":
       "Coming up slate: use over B-roll or wide shots when teasing the next few segments."
   };
+
+  // === CAMERA PREVIEW ===
+
+  async function startCamera() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert("Camera access is not supported in this browser.");
+      return;
+    }
+
+    try {
+      // Stop any existing stream
+      if (camStream) {
+        camStream.getTracks().forEach((t) => t.stop());
+        camStream = null;
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: false
+      });
+
+      camStream = stream;
+
+      if (previewCam) {
+        previewCam.srcObject = stream;
+      }
+      if (liveCam) {
+        liveCam.srcObject = stream;
+      }
+    } catch (err) {
+      console.error("Error starting camera:", err);
+      alert("Could not access camera. Check permissions and try again.");
+    }
+  }
+
+  if (btnStartCam) {
+    btnStartCam.addEventListener("click", startCamera);
+  }
+
+  // Clean up camera when leaving the page
+  window.addEventListener("beforeunload", () => {
+    if (camStream) {
+      camStream.getTracks().forEach((t) => t.stop());
+    }
+  });
 
   // === OVERLAY SWITCHING ===
 
